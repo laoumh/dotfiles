@@ -1,0 +1,12 @@
+; DOCS:
+; https://git-scm.com/docs/git-config#_configuration_file
+
+; Configura usuário dependendo do repositório
+[includeIf "hasconfig:remote.*.url:https://gitlab.unicamp.br/**"]
+	path = gitlab.unicamp.user
+[includeIf "hasconfig:remote.*.url:git@github.com:**/**"]
+	path = github.user
+
+[alias]
+	wd = diff --word-diff=color
+

@@ -1,0 +1,8 @@
+\.stowrc
+
+\.git
+\.gitignore
+
+^/README.*
+^/LICENSE.*
+^/COPYING
