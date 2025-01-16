@@ -7,7 +7,7 @@ Repositório de arquivos de configuração.
 ### Repositório
 
 ```sh
-git clone git@github.com:laoumh/dotfiles.git
+git clone git@github.com:laoumh/dotfiles.git "$HOME/dotfiles"
 ```
 
 ### `stow`
@@ -70,5 +70,5 @@ que permite ignorar certos arquivos (PERL regex)
 - [ ] gpg
 - [ ] guake
 - [x] tmux
-    - configurar navegação entre painéis
+    - [x] configurar navegação entre painéis
 
