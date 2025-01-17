@@ -113,25 +113,46 @@ if ! shopt -oq posix; then
   fi
 fi
 
+
 ##### FUNÇÕES #####
-nman() {
-    nvim -c ":Man $1 | only"
+
+# Testa se comando existe
+function check_command {
+    command -v "$1" >/dev/null 2>&1
 }
+
+# Usa nvim para ler Man pages
+function nman {
+    # --cmd é executado antes de carregar as configurações e -c depois
+    check_command nvim && \
+    nvim --cmd ":cd ~" -c ":Man $1 | only"
+}
+
 
 ##### CONFIGURAÇÕES #####
 
-# Variáveis de ambiente
-export OPENSSL_CONF=/home/lmaraujo/.config/openssl.cnf
-export EDITOR=nvim
+### VARIÁVEIS DE AMBIENTE
+EDITOR=vi
+if check_command nvim ; then
+    EDITOR=nvim
+elif check_command vim ; then
+    EDITOR=vim
+fi
+export EDITOR
+
 # Ver https://git-scm.com/book/id/v2/Appendix-A%3A-Git-in-Other-Environments-Git-in-Bash
 export GIT_PS1_DESCRIBE_STYLE=default
 
+### CONFIGURA E INICIALIZA PROGRAMAS
 # zoxide setup
-eval "$(zoxide init --cmd cd bash)"
+check_command zoxide && eval "$(zoxide init --cmd cd bash)" || echo "zoxide não instalado"
 
 # keychain setup
-eval "$(keychain --eval --quiet --confhost)"
+check_command keychain && eval "$(keychain --eval --quiet --confhost)" || echo "keychain não instalado"
 
 # pass-store
 export PASSWORD_STORE_CLIP_TIME=60
 
+### CONFIGURAÇÕES LOCAIS
+# O arquivo ~/.bash_local não é versionado
+[ -f ~/.bash_local ] && source ~/.bash_local
