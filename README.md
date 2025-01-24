@@ -69,6 +69,4 @@ que permite ignorar certos arquivos (PERL regex)
     - [ ] Demais arquivos bash config (alias etc)
 - [ ] gpg
 - [ ] guake
-- [x] tmux
-    - [x] configurar navegação entre painéis
 
