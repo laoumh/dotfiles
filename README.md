@@ -9,6 +9,13 @@ Repositório de arquivos de configuração.
 ```sh
 git clone git@github.com:laoumh/dotfiles.git "$HOME/dotfiles"
 ```
+### Scripts
+
+A pasta `scripts` contém scripts de instalação e configuração que não são adicionados
+via `stow`.
+
+Executar scripts nessa pasta conforme necessidade.
+
 
 ### `stow`
 
@@ -63,10 +70,9 @@ que permite ignorar certos arquivos (PERL regex)
 
 [Stow has forever changed the way I manage my dotfiles](https://www.youtube.com/watch?v=y6XCebnB9gs)
 
-### TODO
+## TODO
 
 - [x] bashrc
     - [ ] Demais arquivos bash config (alias etc)
-- [ ] gpg
 - [ ] guake
 
