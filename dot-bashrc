@@ -150,6 +150,9 @@ export EDITOR
 # Ver https://git-scm.com/book/id/v2/Appendix-A%3A-Git-in-Other-Environments-Git-in-Bash
 export GIT_PS1_DESCRIBE_STYLE=default
 
+# Guake
+export GUAKE_ENABLE_WAYLAND=1
+
 ### CONFIGURA E INICIALIZA PROGRAMAS
 # zoxide setup
 check_command zoxide && eval "$(zoxide init --cmd cd bash)" || echo "zoxide não instalado"
