@@ -130,7 +130,6 @@ function nman {
 # Tenta autocompletar nman com opções man
 man_completion=/usr/share/bash-completion/completions/man
 if [ -f "$man_completion" ] ; then
-    echo "nman completion"
     source "$man_completion"
     complete -F _man nman
 fi
@@ -139,11 +138,11 @@ fi
 ##### CONFIGURAÇÕES #####
 
 ### VARIÁVEIS DE AMBIENTE
-EDITOR=vi
+EDITOR="vi"
 if check_command nvim ; then
-    EDITOR=nvim
+    EDITOR="nvim"
 elif check_command vim ; then
-    EDITOR=vim
+    EDITOR="vim"
 fi
 export EDITOR
 
