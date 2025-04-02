@@ -10,3 +10,5 @@
 [alias]
 	wd = diff --word-diff=color
 
+[diff]
+	context = 0
