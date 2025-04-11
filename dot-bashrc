@@ -66,7 +66,8 @@ unset color_prompt force_color_prompt
 # If this is an xterm set the title to user@host:dir
 case "$TERM" in
 xterm*|rxvt*)
-    PS1="\[\e]0;${debian_chroot:+($debian_chroot)}\u@\h: \w\a\]$PS1"
+    # PS1="\[\e]0;${debian_chroot:+($debian_chroot)}\u@\h: \w\a\]$PS1"
+    PS1="\[\e]0;\h \a\]$PS1"
     ;;
 *)
     ;;
@@ -158,6 +159,11 @@ check_command keychain && eval "$(keychain --eval --quiet --confhost)" || echo "
 
 # pass-store
 export PASSWORD_STORE_CLIP_TIME=60
+
+# Terminal guake
+export GUAKE_ENABLE_WAYLAND=1
+guake_config_file="$HOME/dotfiles/guake.cfg"
+check_command guake && [ -f "$guake_config_file" ]  && guake --restore-preferences="$guake_config_file"
 
 ### CONFIGURAÇÕES LOCAIS
 # O arquivo ~/.bash_local não é versionado

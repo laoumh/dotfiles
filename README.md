@@ -9,13 +9,13 @@ Repositório de arquivos de configuração.
 ```sh
 git clone git@github.com:laoumh/dotfiles.git "$HOME/dotfiles"
 ```
+
 ### Scripts
 
 A pasta `scripts` contém scripts de instalação e configuração que não são adicionados
 via `stow`.
 
 Executar scripts nessa pasta conforme necessidade.
-
 
 ### `stow`
 
@@ -31,9 +31,9 @@ criando symlinks do alvo para os arquivos do repositório.
 
 - "Pacote" é a estrutura de arquivos que são pensados como uma unidade
 - "Diretório stow" é a raiz da árvore de diretório contendo os arquivos de interesse.
-    - Padrão: se omitido, é o diretório atual
+  - Padrão: se omitido, é o diretório atual
 - "Diretório alvo" é a raiz do diretório onde os arquivos serão instalados
-    - Padrão: se omitido, é o pai do diretório atual
+  - Padrão: se omitido, é o pai do diretório atual
 - "Imagem" é a estrutura de diretórios
 
 #### Comandos úteis
@@ -64,6 +64,20 @@ Ver  `info stow`. Em particular as seções:
 que permite ignorar certos arquivos (PERL regex)
 - "Resource Files", sobre o arquivo `.stowrc`, que permite configurar opções-padrão
 
+### Guake
+
+Para salvar as preferências atuais em um arquivo:
+
+```sh
+guake --save-preferences=guake.cfg
+```
+
+Para carregar as preferências salvas (foi adicionado automaticamente ao `.bashrc`):
+
+```sh
+guake --restore-preferences=guake.cfg
+```
+
 ## Referências
 
 [Github Dotfiles guide](http://dotfiles.github.io/)
@@ -73,6 +87,5 @@ que permite ignorar certos arquivos (PERL regex)
 ## TODO
 
 - [x] bashrc
-    - [ ] Demais arquivos bash config (alias etc)
+  - [ ] Demais arquivos bash config (alias etc)
 - [ ] guake
-
