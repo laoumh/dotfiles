@@ -12,3 +12,5 @@
 
 [diff]
 	context = 0
+[log]
+	date = local
