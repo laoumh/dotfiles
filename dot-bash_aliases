@@ -1,0 +1,5 @@
+# Aliases gerais.
+# Para aliases pertinentes a uma só máquina, usar ~/.bash_local
+
+alias start-env='pipenv shell'
+alias view='nvim -R'

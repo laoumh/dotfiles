@@ -7,4 +7,5 @@
 ^/LICENSE.*
 ^/COPYING
 
+^/guake.cfg
 ^/scripts

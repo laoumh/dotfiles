@@ -1,0 +1,95 @@
+# *** Usa nvim para ler Man pages
+function nman {
+    # --cmd é executado antes de carregar as configurações e -c depois
+    check_command nvim && \
+    nvim --cmd ":cd ~" -c ":Man $1 | only"
+}
+# Tenta autocompletar nman com opções man
+man_completion=/usr/share/bash-completion/completions/man
+if [ -f "$man_completion" ] ; then
+    source "$man_completion"
+    complete -F _man nman
+fi
+
+
+# *** Funções VM
+function vm-start {
+    if [ -z "$1" ]; then
+        echo "Uso: vm-start <nome VM>"
+        return 1
+    fi
+
+    local vm_name="$1"
+
+    # Testa se VM já está rodando
+    local running_vms=$(VBoxManage list runningvms)
+    if [[ $running_vms =~ $vm_name ]] ; then
+        echo "VM '${vm_name}' já está em execução"
+        return 0
+    fi
+
+    echo "Iniciando VM '${vm_name}'"
+
+    local nohup_out=$(mktemp -t "${vm_name}.XXXXXXXX.out")
+    nohup VBoxHeadless --startvm "${vm_name}" &> "$nohup_out" &
+
+    # Aguarda tempo médio de inicialização, cerca de 15s
+    for i in {10..2} ; do
+        printf "%s..." "$i"
+        sleep 0.75
+    done ;
+    printf "1\n\nPronto! Pode acessar a VM\n"
+}
+
+function vm-stop {
+    if [ -z "$1" ]; then
+        echo "Uso: vm-stop <nome VM>"
+        return 1
+    fi
+
+    local vm_name="$1"
+
+    # Testa se VM está rodando
+    local running_vms=$(VBoxManage list runningvms)
+    if [[ ! $running_vms =~ $vm_name ]] ; then
+        echo "VM '${vm_name}' não está em execução"
+        return 0
+    fi
+
+    VBoxManage controlvm "${vm_name}" poweroff
+    rm -f "/tmp/${vm_name}".*.out
+}
+
+function _vm_start_completion {
+    local cur_arg
+    cur_arg="${COMP_WORDS[COMP_CWORD]}"
+
+    local vm_names=$(VBoxManage list vms | awk -F'"' '{print $2}' | grep -v '^$' | while read -r vm_name; do
+        if [[ "$vm_name" =~ " " ]]; then
+            echo "\"$vm_name\""
+        else
+            echo "$vm_name"
+        fi
+    done | sort)
+
+    COMPREPLY=( $(compgen -W "${vm_names}" -- "$cur_arg") )
+}
+
+function _vm_stop_completion {
+    local cur_arg
+    cur_arg="${COMP_WORDS[COMP_CWORD]}"
+
+    local vm_names=$(VBoxManage list runningvms | awk -F'"' '{print $2}' | grep -v '^$' | while read -r vm_name; do
+        if [[ "$vm_name" =~ " " ]]; then
+            echo "\"$vm_name\""
+        else
+            echo "$vm_name"
+        fi
+    done | sort)
+
+    COMPREPLY=( $(compgen -W "${vm_names}" -- "$cur_arg") )
+}
+
+# Registra função de completar
+complete -F _vm_start_completion vm-start
+complete -F _vm_stop_completion vm-stop

@@ -4,6 +4,10 @@ Repositório de arquivos de configuração.
 
 ## Instalação e Uso
 
+```sh
+stow .
+```
+
 ### Repositório
 
 ```sh
@@ -84,8 +88,3 @@ guake --restore-preferences=guake.cfg
 
 [Stow has forever changed the way I manage my dotfiles](https://www.youtube.com/watch?v=y6XCebnB9gs)
 
-## TODO
-
-- [x] bashrc
-  - [ ] Demais arquivos bash config (alias etc)
-- [ ] guake
