@@ -1,5 +1,18 @@
-# Aliases gerais.
 # Para aliases pertinentes a uma só máquina, usar ~/.bash_local
 
+# Atalhos
+alias ls='ls --color=auto'
+alias ll='ls -lh'
+alias la='ls -A'
+
+alias diff='diff --color=auto'
+alias egrep='egrep --color=auto'
+alias fgrep='fgrep --color=auto'
+alias grep='grep --color=auto'
+
+# Definições
+alias ccuec-vpn-connect='forticlient vpn connect ccuec-gw -u lmaraujo -s'
+alias ccuec-vpn-disconnect='forticlient vpn disconnect ccuec-gw'
+alias ccuec-vpn-status='forticlient vpn status'
 alias start-env='pipenv shell'
 alias view='nvim -R'
