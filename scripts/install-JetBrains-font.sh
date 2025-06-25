@@ -1,20 +1,14 @@
 #!/usr/bin/env bash
 
-FONT_NAME="JetBrainsMono"
-FONT_URL="https://github.com/ryanoasis/nerd-fonts/releases/download/v3.3.0/JetBrainsMono.zip"
-FONT_DIR="$HOME/.local/share/fonts/$FONT_NAME"
-# `mktemp` já cria o diretório
-WORK_DIR=$(mktemp -d -t fonts-XXXXXX)
+set -e
 
 # Baixa a fonte
-cd "$WORK_DIR"
-curl -fLO "$FONT_URL"
+FONT_URL="https://github.com/ryanoasis/nerd-fonts/releases/download/v3.3.0/JetBrainsMono.zip"
+WORK_DIR=$(mktemp -d -t fonts-XXXXXX)
+curl -fL --output-dir "$WORK_DIR" --remote-name "$FONT_URL"
+FONT_FILE=$(find "$WORK_DIR" -type f)
+printf "Fonte baixada em \'%s\'\n" "$FONT_FILE"
 
-# Colaca no diretório
-mkdir -p "$FONT_DIR"
-unzip JetBrainsMono.zip -d "$FONT_DIR"
-
-# Atualiza cache e verifica
-fc-cache -f -v
-echo "Verificando:"
-fc-list | grep "$FONT_NAME"
+# Instala a fonte
+printf "Iniciando instalação\n\n"
+./install-font.sh "$FONT_FILE"
