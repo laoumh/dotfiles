@@ -28,17 +28,16 @@ function vm-start {
         return 0
     fi
 
-    echo "Iniciando VM '${vm_name}'"
-
     local nohup_out=$(mktemp -t "${vm_name}.XXXXXXXX.out")
     nohup VBoxHeadless --startvm "${vm_name}" &> "$nohup_out" &
 
     # Aguarda tempo médio de inicialização, cerca de 15s
+    printf "Iniciando VM %s. Log disponível em %s\n\n" "$vm_name" "$nohup_out"
     for i in {10..2} ; do
         printf "%s..." "$i"
         sleep 0.75
     done ;
-    printf "1\n\nPronto! Pode acessar a VM\n"
+    printf "1...Pronto! Pode acessar a VM.\n"
 }
 
 function vm-stop {
