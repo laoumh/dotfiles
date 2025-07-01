@@ -8,8 +8,31 @@
 	path = github.user
 
 [alias]
+	a = add
+	c = commit --verbose
+	co = checkout
+
+	d = diff
+	dc = diff --cached
+	ds = diff --staged
+	dstat = diff --stat
+
+	l = log --oneline
+	lg = log --oneline --graph
+
+	s = status
+	stl = stash list
+	stpush = stash push
+	stpop = stash pop
+	sw = switch
+
 	wd = diff --word-diff=color
 
+	; Lista os aliases
+	la = "!git config -l | grep alias | cut -c 7-"
+
+	; Mostra branches que já foram incorporadas
+	merge-hist = log --oneline --graph --all --merges
 [diff]
 	context = 0
 [log]
@@ -17,5 +40,5 @@
 [credential "https://gitlab.unicamp.br"]
 	username = lmaraujo
 [credential]
-        ; cache de 9 horas
+	; cache de 9 horas
 	helper = cache --timeout=32400

@@ -1,6 +1,9 @@
 # Para aliases pertinentes a uma só máquina, usar ~/.bash_local
 
 # Atalhos
+alias ..='cd ..'
+alias ...='cd ../..'
+
 alias ls='ls --color=auto'
 alias ll='ls -lh'
 alias la='ls -A'
