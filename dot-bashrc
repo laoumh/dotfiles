@@ -128,6 +128,17 @@ check_command keychain && eval "$(keychain --eval --quiet --confhost)" || echo "
 # pass-store
 export PASSWORD_STORE_CLIP_TIME=60
 
+# direnv setup
+check_command direnv && eval "$(direnv hook bash)"
+check_command direnv && alias tmux='direnv exec / tmux'
+show_virtual_env() {
+  if [[ -n "$VIRTUAL_ENV" && -n "$DIRENV_DIR" ]]; then
+    echo "($(basename $VIRTUAL_ENV)) "
+  fi
+}
+export -f show_virtual_env
+PS1='$(show_virtual_env)'$PS1
+
 # Terminal guake
 export GUAKE_ENABLE_WAYLAND=1
 guake_config_file="$HOME/dotfiles/guake.cfg"
