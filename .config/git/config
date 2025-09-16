@@ -8,24 +8,13 @@
 	path = github.user
 
 [alias]
-	a = add
-	c = commit --verbose
-	cm = commit -m
-	co = checkout
-
 	d = diff
-	dc = diff --cached
 	ds = diff --staged
-	dstat = diff --stat
 
 	l = log --oneline
 	lg = log --oneline --graph
 
 	s = status
-	stl = stash list
-	stpush = stash push
-	stpop = stash pop
-	sw = switch
 
 	wd = diff --word-diff=color
 
@@ -43,3 +32,7 @@
 [credential]
 	; cache de 9 horas
 	helper = cache --timeout=32400
+[commit]
+	verbose = true
+[push]
+	autoSetupRemote = true
