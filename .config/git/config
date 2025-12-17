@@ -36,3 +36,5 @@
 	verbose = true
 [push]
 	autoSetupRemote = true
+[stash]
+	showIncludeUntracked = true

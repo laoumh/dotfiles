@@ -112,6 +112,9 @@ elif check_command vim ; then
 fi
 export EDITOR
 
+# Commits com VIM por rapidez
+export GIT_EDITOR="vim"
+
 # Ver https://git-scm.com/book/id/v2/Appendix-A%3A-Git-in-Other-Environments-Git-in-Bash
 export GIT_PS1_DESCRIBE_STYLE=default
 
