@@ -24,7 +24,7 @@ Executar scripts nessa pasta conforme necessidade.
 ### `stow`
 
 ```sh
-sudo nala install stow
+sudo apt install stow
 ```
 
 `stow` "instala" os pacotes do repositório no diretório alvo,
@@ -55,10 +55,6 @@ A flag `--dotfiles` mapeia arquivos prefixados com `dot-` para `.` no alvo.
 Ex: `dot-bashrc` &rarr; `.bashrc`.
 
 Isso evita criar repositório de arquivos ocultos.
-
-Obs: há bug antes da versão 2.4 que não processa corretamente diretórios iniciados
-em `dot-`. Essa versão ainda não está disponível no repositório Debian, portanto
-no momento salvar diretórios ocultos iniciando com `.<dir>` mesmo.
 
 #### Docs
 
