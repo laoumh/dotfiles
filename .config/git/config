@@ -13,6 +13,7 @@
 
 	l = log --oneline
 	lg = log --oneline --graph
+	log-body = log --format='%h %s%n%b'
 
 	s = status
 
