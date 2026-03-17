@@ -6,6 +6,8 @@
 	path = gitlab.unicamp.user
 [includeIf "hasconfig:remote.*.url:git@github.com:**/**"]
 	path = github.user
+[includeIf "hasconfig:remote.*.url:https://github.com/**"]
+	path = github.user
 
 [alias]
 	d = diff
