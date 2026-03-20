@@ -267,6 +267,11 @@ bar {
 # Start the "Clickable" helpers in the background
 # exec blueman-applet
 
+### Scripts
+set $scripts ~/.config/sway/scripts
+bindsym $mod+slash exec $scripts/help
+bindsym $mod+p exec $scripts/menu
+
 input "type:keyboard" {
     xkb_layout br
 }

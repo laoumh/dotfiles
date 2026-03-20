@@ -17,6 +17,9 @@ repos or remote script piping.
 - **Lock**: swaylock + swayidle (already configured: lock at 5min, dpms off at 10min, lock before sleep)
 - **Settings menu**: fuzzel-based `menu` script for wifi, bluetooth, audio, display, theme
 - **Keyboard**: Brazilian layout (xkb_layout br)
+- **Text editor**: Mousepad (spell check, dark mode, scratchpad notepad via $mod+n)
+- **File manager**: Thunar
+- **D-Bus/portals**: environment exported via exec at startup (fixes GTK app slow launch)
 
 ## Checklist
 
@@ -35,7 +38,7 @@ repos or remote script piping.
 - [x] Screen locking — swaylock + swayidle
 - [ ] Polkit agent (lxpolkit or polkit-gnome)
 - [ ] Keyring/secrets (gnome-keyring or keepassxc)
-- [ ] XDG portals (xdg-desktop-portal-wlr)
+- [x] XDG portals — xdg-desktop-portal-wlr + gtk, env exported to systemd/D-Bus
 - [ ] Clipboard manager (wl-clipboard + cliphist)
 
 ### Media/Hardware
@@ -54,20 +57,21 @@ repos or remote script piping.
 - [ ] GTK theme (gtk-3.0/settings.ini)
 - [ ] Qt theme (qt5ct)
 - [ ] Cursor theme
-- [x] Font — JetBrainsMono Nerd Font
+- [x] Font — JetBrainsMono Nerd Font (pango font set in sway config for bar icons)
 - [ ] Icon theme
 - [ ] Color scheme — currently neutral grays, decide on final palette
 
 ### Misc
 - [ ] Screenshot tool — expand beyond full-screen (add area + clipboard with grim + slurp)
-- [ ] File manager (thunar or pcmanfm)
+- [x] File manager — Thunar
+- [x] Text editor — Mousepad in scratchpad ($mod+n)
 - [ ] Automounting USB (udiskie)
 - [ ] environment.d setup for PATH and env vars
 
 ## Existing Files
 
 ```
-~/dotfiles/sway/
+~/dotfiles/dot-config/
 ├── sway/config       # Main sway config
 ├── sway/menu         # Fuzzel-based settings launcher
 ├── i3status/config   # Bar status modules

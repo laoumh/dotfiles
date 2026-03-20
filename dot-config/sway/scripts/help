@@ -1,0 +1,36 @@
+#!/bin/bash
+# Display sway keybindings in fuzzel
+
+sway_config="$HOME/.config/sway/config"
+
+# Extract variable definitions
+declare -A vars
+while IFS= read -r line; do
+    if [[ $line =~ ^set\ \$([a-zA-Z_]+)\ (.+)$ ]]; then
+        vars["${BASH_REMATCH[1]}"]="${BASH_REMATCH[2]}"
+    fi
+done < "$sway_config"
+
+# Resolve variables in a string
+resolve_vars() {
+    local str="$1"
+    for var in "${!vars[@]}"; do
+        str="${str//\$$var/${vars[$var]}}"
+    done
+    echo "$str"
+}
+
+# Parse bindsym lines, resolve vars, format and display
+gawk '/^[[:space:]]*bindsym/ {
+    line = $0
+    sub(/^[[:space:]]*bindsym[[:space:]]+/, "", line)
+    sub(/--locked[[:space:]]+/, "", line)
+    if (match(line, /^([^[:space:]]+)[[:space:]]+(.+)$/, arr)) {
+        cmd = arr[2]
+        sub(/^exec[[:space:]]+/, "", cmd)
+        if (length(cmd) > 50) cmd = substr(cmd, 1, 47) "..."
+        printf "%-30s  %s\n", arr[1], cmd
+    }
+}' "$sway_config" | while IFS= read -r line; do
+    resolve_vars "$line"
+done | fuzzel --dmenu --prompt "Keybindings: " --width 60
