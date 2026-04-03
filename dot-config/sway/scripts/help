@@ -20,17 +20,48 @@ resolve_vars() {
     echo "$str"
 }
 
-# Parse bindsym lines, resolve vars, format and display
-gawk '/^[[:space:]]*bindsym/ {
+# Turn exec commands into readable descriptions.
+# Add new rules here as needed.
+friendly_name() {
+    local cmd="$1"
+    case "$cmd" in
+        *pactl*source*mute*)   echo "mic mute" ;;
+        *pactl*mute*toggle)    echo "mute toggle" ;;
+        *pactl*-[0-9]*)        echo "volume down" ;;
+        *pactl*+[0-9]*)        echo "volume up" ;;
+        *brightnessctl*-*)     echo "brightness down" ;;
+        *brightnessctl*+*)     echo "brightness up" ;;
+        *grim*)                echo "screenshot" ;;
+        *swaymsg\ exit*)       echo "exit sway" ;;
+        *)                     echo "$cmd" ;;
+    esac
+}
+
+# Parse section headers and bindsym lines
+gawk '
+/^## / {
+    sub(/^## /, "")
+    printf "\n── %s ──\n", $0
+    next
+}
+/^[[:space:]]*bindsym/ {
     line = $0
     sub(/^[[:space:]]*bindsym[[:space:]]+/, "", line)
     sub(/--locked[[:space:]]+/, "", line)
     if (match(line, /^([^[:space:]]+)[[:space:]]+(.+)$/, arr)) {
-        cmd = arr[2]
-        sub(/^exec[[:space:]]+/, "", cmd)
-        if (length(cmd) > 50) cmd = substr(cmd, 1, 47) "..."
-        printf "%-30s  %s\n", arr[1], cmd
+        print arr[1] "\t" arr[2]
     }
-}' "$sway_config" | while IFS= read -r line; do
-    resolve_vars "$line"
+}
+' "$sway_config" | while IFS=$'\t' read -r key cmd; do
+    if [[ -z "$cmd" ]]; then
+        echo "$key"
+    else
+        rkey=$(resolve_vars "$key")
+        if [[ "$cmd" == exec* ]]; then
+            desc=$(friendly_name "$cmd")
+        else
+            desc="$cmd"
+        fi
+        printf "%-26s%s\n" "$rkey" "$desc"
+    fi
 done | fuzzel --dmenu --prompt "Keybindings: " --width 60
