@@ -18,8 +18,26 @@ repos or remote script piping.
 - **Settings menu**: fuzzel-based `menu` script for wifi, bluetooth, audio, display, theme
 - **Keyboard**: Brazilian layout (xkb_layout br)
 - **Text editor**: Mousepad (spell check, dark mode, scratchpad notepad via $mod+n)
+- **PDF viewer**: zathura (default via xdg-mime) + sioyek for dissertation work
 - **File manager**: Thunar
 - **D-Bus/portals**: environment exported via exec at startup (fixes GTK app slow launch)
+- **Help script**: fuzzel-based keybinding viewer ($mod+? to launch)
+  - Parses inline `# description` comments from sway config
+  - Shows `## Section` headers as separators
+  - Resolves sway variables ($mod, $left, etc.) in key names
+
+## Config Conventions
+
+- All keybindings live in a single `── Keybindings ──` section at the end of sway/config
+- Bindings are grouped under `## Sub-section` headers (Session, Launchers, Windows, Layout, Workspaces, Scratchpad, Media)
+- Every user-facing binding must have an inline `# Description` comment — this is what the help script displays
+- Bindings without inline comments (e.g. inside `mode "resize"`) are hidden from help
+- Use keysym names (e.g. `$mod+question`) over physical key combos for layout independence
+
+## Reference Project
+
+`~/sway-setup` — a third-party sway config cloned for reference. Not used directly,
+but individual ideas may be adapted from it.
 
 ## Checklist
 
@@ -65,8 +83,13 @@ repos or remote script piping.
 - [ ] Screenshot tool — expand beyond full-screen (add area + clipboard with grim + slurp)
 - [x] File manager — Thunar
 - [x] Text editor — Mousepad in scratchpad ($mod+n)
+- [x] PDF viewer — zathura (default) + sioyek for dissertation work
 - [ ] Automounting USB (udiskie)
 - [ ] environment.d setup for PATH and env vars
+
+### Scripts
+- [ ] Dependency install script — single script to apt-install the full sway environment
+- [ ] XDG defaults script — set default apps via xdg-settings/xdg-mime (browser, PDF viewer, etc.)
 
 ## Existing Files
 
