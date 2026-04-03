@@ -1,0 +1,6 @@
+daemonize
+color=333333
+show-failed-attempts
+ignore-empty-password
+indicator-radius=100
+font=Inter Display Thin
