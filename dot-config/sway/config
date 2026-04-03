@@ -1,10 +1,16 @@
-# Default config for sway
+##### Sway Config #####
 #
-# Read `man 5 sway` for a complete reference.
+# DOCS: `man 5 sway`
 
-### Environment for D-Bus and xdg-portals
+### Autostart
+# Environment for D-Bus and xdg-portals
 exec systemctl --user import-environment DISPLAY WAYLAND_DISPLAY SWAYSOCK XDG_CURRENT_DESKTOP
 exec dbus-update-activation-environment --systemd DISPLAY WAYLAND_DISPLAY SWAYSOCK XDG_CURRENT_DESKTOP
+# Notification
+exec mako
+# Bluetooth
+# exec blueman-applet
+
 
 ### Variables
 #
@@ -105,9 +111,6 @@ bar {
         inactive_workspace $bar_bg $bar_bg $bg
     }
 }
-
-### Autostart
-# exec blueman-applet
 
 ### Keybindings
 #
