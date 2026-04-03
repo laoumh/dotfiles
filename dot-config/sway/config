@@ -10,6 +10,8 @@ exec dbus-update-activation-environment --systemd DISPLAY WAYLAND_DISPLAY SWAYSO
 exec mako
 # Bluetooth
 # exec blueman-applet
+# Night color temperature
+exec gammastep -l -25:-47
 
 
 ### Variables
