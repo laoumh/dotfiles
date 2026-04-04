@@ -83,6 +83,21 @@ floating_modifier $mod normal
 exec_always mousepad
 for_window [app_id="mousepad"] move to scratchpad, resize set 1000 800, move position center
 
+### Window rules
+# Inhibit idle for fullscreen apps (e.g. videos)
+for_window [app_id=".*"] inhibit_idle fullscreen
+
+# Float Thunar dialogs
+for_window [app_id="thunar" title="File Operation Progress"] floating enable, move position center
+for_window [app_id="thunar" title="Confirm *"] floating enable, move position center
+for_window [app_id="thunar" title="Properties"] floating enable, move position center
+for_window [app_id="thunar" title="Rename *"] floating enable, move position center
+for_window [app_id="thunar" title="Create *"] floating enable, move position center
+
+# Float utility windows
+for_window [app_id="pavucontrol"] floating enable, move position center
+for_window [app_id="blueman-manager"] floating enable, move position center
+
 ### Appearence
 font pango:JetBrainsMono Nerd Font 12
 
