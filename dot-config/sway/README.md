@@ -20,6 +20,10 @@ repos or remote script piping.
 - **Text editor**: Mousepad (spell check, dark mode, scratchpad notepad via $mod+n)
 - **PDF viewer**: zathura (default via xdg-mime) + sioyek for dissertation work
 - **File manager**: Thunar
+- **Notifications**: mako (minimal, Wayland-native)
+- **Power menu**: fuzzel-based script (lock, logout, reboot, shutdown)
+- **Night light**: gammastep (Wayland-native, location-based)
+- **Display manager**: GDM for now; lightdm when removing GNOME
 - **D-Bus/portals**: environment exported via exec at startup (fixes GTK app slow launch)
 - **Help script**: fuzzel-based keybinding viewer ($mod+? to launch)
   - Parses inline `# description` comments from sway config
@@ -42,7 +46,7 @@ but individual ideas may be adapted from it.
 ## Checklist
 
 ### Visual/UI
-- [ ] Notification daemon (mako or dunst — pick one)
+- [x] Notification daemon — mako
 - [ ] Wallpaper
 - [x] Status bar — swaybar + i3status + wrapper
 - [x] Application launcher — fuzzel
@@ -64,9 +68,10 @@ but individual ideas may be adapted from it.
 - [x] Brightness control — brightnessctl via media keys
 - [ ] Media keys (playerctl)
 - [ ] Display management — wdisplays in menu, kanshi for auto-profiles (optional)
+- [x] Night light — gammastep (location-based)
 
 ### Power
-- [ ] Power menu script (shutdown/reboot/logout via fuzzel)
+- [x] Power menu script — fuzzel-based (lock, logout, reboot, shutdown)
 - [x] Battery indicator — i3status
 - [x] Idle/suspend — swayidle
 - [ ] Lid close behavior
@@ -86,6 +91,7 @@ but individual ideas may be adapted from it.
 - [x] PDF viewer — zathura (default) + sioyek for dissertation work
 - [ ] Automounting USB (udiskie)
 - [ ] environment.d setup for PATH and env vars
+- [ ] Update reminders — notify-send via systemd user timer (apt-daily.timer refreshes cache)
 
 ### Scripts
 - [ ] Dependency install script — single script to apt-install the full sway environment
