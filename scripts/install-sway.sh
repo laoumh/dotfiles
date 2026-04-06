@@ -30,7 +30,7 @@ BAR=(
 
 # Terminal, launcher, notifications
 SHELL_UI=(
-    foot fuzzel mako-notifier
+    foot foot-themes fuzzel mako-notifier
 )
 
 # Apps referenced in config / README
@@ -63,7 +63,7 @@ MENU_UTILS=(
 
 # Fonts
 FONTS=(
-    fonts-jetbrains-mono  # JetBrainsMono (foot, sway bar)
+    # JetBrainsMono Nerd Font installed via install-font.sh
     fonts-noto-color-emoji
     fonts-inter           # swaylock font
 )
