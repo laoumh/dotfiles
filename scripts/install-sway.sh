@@ -68,6 +68,12 @@ FONTS=(
     fonts-inter           # swaylock font
 )
 
+# Theming
+THEMING=(
+    numix-gtk-theme
+    numix-icon-theme
+)
+
 
 ### Install ###
 
@@ -79,6 +85,7 @@ ALL_PACKAGES=(
     "${TOOLS[@]}"
     "${MENU_UTILS[@]}"
     "${FONTS[@]}"
+    "${THEMING[@]}"
 )
 
 # Filter out comments and empty entries
@@ -103,3 +110,4 @@ msg "Installing packages..."
 sudo apt install "${INSTALL[@]}"
 
 ok "Done. Log out and select Sway from your display manager, or run 'sway' from a TTY."
+msg "Run 'nwg-look' to configure GTK theme, icons, and fonts."
