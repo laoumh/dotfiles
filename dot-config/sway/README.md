@@ -32,6 +32,7 @@ repos or remote script piping.
 
 ## Config Conventions
 
+- When adding a new tool/dependency, also add its package to `~/dotfiles/scripts/install-sway.sh`
 - All keybindings live in a single `── Keybindings ──` section at the end of sway/config
 - Bindings are grouped under `## Sub-section` headers (Session, Launchers, Windows, Layout, Workspaces, Scratchpad, Media)
 - Every user-facing binding must have an inline `# Description` comment — this is what the help script displays
@@ -52,7 +53,7 @@ but individual ideas may be adapted from it.
 - [x] Application launcher — fuzzel
 
 ### Connectivity
-- [x] WiFi — i3status + nm-connection-editor via menu
+- [ ] WiFi — i3status + nmtui via menu (fuzzel+nmcli quick-connect planned)
 - [ ] Bluetooth — wrapper script for bar status, blueman for management
 - [x] VPN — i3status path_exists
 
