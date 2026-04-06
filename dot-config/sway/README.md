@@ -33,10 +33,10 @@ repos or remote script piping.
 ## Config Conventions
 
 - When adding a new tool/dependency, also add its package to `~/dotfiles/scripts/install-sway.sh`
+- **Sway config does not accept inline comments** — `#` comments must be on their own line
 - All keybindings live in a single `── Keybindings ──` section at the end of sway/config
 - Bindings are grouped under `## Sub-section` headers (Session, Launchers, Windows, Layout, Workspaces, Scratchpad, Media)
-- Every user-facing binding must have an inline `# Description` comment — this is what the help script displays
-- Bindings without inline comments (e.g. inside `mode "resize"`) are hidden from help
+- The help script displays `exec` commands using friendly names defined in `friendly_name()` in `sway/scripts/help`
 - Use keysym names (e.g. `$mod+question`) over physical key combos for layout independence
 
 ## Reference Project
@@ -86,7 +86,7 @@ but individual ideas may be adapted from it.
 - [ ] Color scheme — currently neutral grays, decide on final palette
 
 ### Misc
-- [ ] Screenshot tool — expand beyond full-screen (add area + clipboard with grim + slurp)
+- [x] Screenshot tool — grim + slurp + swappy (area and window capture)
 - [x] File manager — Thunar
 - [x] Text editor — Mousepad in scratchpad ($mod+n)
 - [x] PDF viewer — zathura (default) + sioyek for dissertation work

@@ -239,7 +239,11 @@ bar {
     # Special keys to adjust brightness via brightnessctl
     bindsym --locked XF86MonBrightnessDown exec brightnessctl set 5%-
     bindsym --locked XF86MonBrightnessUp exec brightnessctl set 5%+
-    # Special key to take a screenshot with grim
-    bindsym Print exec grim
+
+## Screenshot
+    # Area screenshot
+    bindsym Print exec grim -g "$(slurp)" - | swappy -f -
+    # Window screenshot
+    bindsym Shift+Print exec ~/.config/sway/scripts/screenshot-window.sh
 
 include /etc/sway

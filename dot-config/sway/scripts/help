@@ -32,6 +32,7 @@ friendly_name() {
         *brightnessctl*-*)     echo "brightness down" ;;
         *brightnessctl*+*)     echo "brightness up" ;;
         *grim*)                echo "screenshot" ;;
+        *screenshot-window*)   echo "window screenshot" ;;
         *swaylock*)            echo "lock screen" ;;
         *swaymsg\ exit*)       echo "exit sway" ;;
         *)                     echo "$cmd" ;;

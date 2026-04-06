@@ -46,6 +46,8 @@ APPS=(
 TOOLS=(
     gawk              # help script parser
     grim              # screenshot
+    slurp             # area selection for screenshot
+    swappy            # screenshot editor
     brightnessctl     # brightness keys
     pulseaudio-utils  # pactl for volume keys
     playerctl         # media keys (README planned)
