@@ -48,7 +48,7 @@ but individual ideas may be adapted from it.
 
 ### Visual/UI
 - [x] Notification daemon — mako
-- [ ] Wallpaper
+- [x] Wallpaper
 - [x] Status bar — swaybar + i3status + wrapper
 - [x] Application launcher — fuzzel
 
@@ -62,7 +62,7 @@ but individual ideas may be adapted from it.
 - [ ] Polkit agent (lxpolkit or polkit-gnome)
 - [ ] Keyring/secrets (gnome-keyring or keepassxc)
 - [x] XDG portals — xdg-desktop-portal-wlr + gtk, env exported to systemd/D-Bus
-- [ ] Clipboard manager (wl-clipboard + cliphist)
+- [x] Clipboard — wl-clipboard
 
 ### Media/Hardware
 - [x] Volume control — pactl via media keys
@@ -75,7 +75,7 @@ but individual ideas may be adapted from it.
 - [x] Power menu script — fuzzel-based (lock, logout, reboot, shutdown)
 - [x] Battery indicator — i3status
 - [x] Idle/suspend — swayidle
-- [ ] Lid close behavior
+- [x] Lid close behavior — logind defaults (suspend), swayidle locks before sleep
 
 ### Theming/Appearance
 - [ ] GTK theme (gtk-3.0/settings.ini)
