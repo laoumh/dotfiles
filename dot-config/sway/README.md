@@ -98,6 +98,49 @@ but individual ideas may be adapted from it.
 - [ ] Dependency install script — single script to apt-install the full sway environment
 - [ ] XDG defaults script — set default apps via xdg-settings/xdg-mime (browser, PDF viewer, etc.)
 
+## Installation
+
+### Base packages
+
+Run `~/dotfiles/scripts/install-sway.sh` to install all Debian-packaged
+dependencies (compositor, bar, terminal, launcher, tools, fonts, theming).
+
+### Nerd Font
+
+The JetBrainsMono Nerd Font is installed separately (not from Debian repos —
+the `fonts-jetbrains-mono` package conflicts with Nerd Font icon rendering):
+
+```
+~/dotfiles/scripts/install-font.sh https://github.com/ryanoasis/nerd-fonts/releases/download/v3.4.0/JetBrainsMono.tar.xz
+```
+
+### GTK theme (Catppuccin Mocha)
+
+The GTK theme is not in Debian repos. Build from source:
+
+```
+sudo apt install sassc gtk2-engines-murrine
+git clone https://github.com/Fausto-Korpsvart/Catppuccin-GTK-Theme.git /tmp/catppuccin-gtk
+cd /tmp/catppuccin-gtk/themes && ./install.sh -t peach -c dark
+```
+
+This installs the theme to `~/.themes/`. Select it with `nwg-look`.
+
+### Icon theme (Catppuccin Mocha)
+
+From the same repo:
+
+```
+cp -r /tmp/catppuccin-gtk/icons/Catppuccin-Mocha ~/.icons/
+```
+
+Select it with `nwg-look`.
+
+### XDG defaults
+
+Run `~/dotfiles/scripts/set-xdg-defaults.sh` to set default apps
+(browser, terminal, PDF viewer, file manager, image viewer).
+
 ## Existing Files
 
 ```

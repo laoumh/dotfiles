@@ -79,12 +79,12 @@ for_window [app_id="blueman-manager"] floating enable, move position center
 ### Appearence
 font pango:JetBrainsMono Nerd Font 12
 
-set $bg         #999988
-set $active     #444444
-set $inactive   #222222
-set $fg         #eeeecc
-set $urgent     #cc241d
-set $bar_bg     #111111
+set $bg         #6c7086
+set $active     #45475a
+set $inactive   #313244
+set $fg         #cdd6f4
+set $urgent     #f38ba8
+set $bar_bg     #11111b
 
 # class                 border    bg        text    indicator child_border
 client.focused          $active   $active   $fg     $active   $active
