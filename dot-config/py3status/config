@@ -1,0 +1,91 @@
+### py3status configuration file
+#
+# DOCS: https://ultrabug.github.io/py3status/user-guide/modules/
+
+
+# Module order (left to right on the bar)
+order += "clock"
+order += "networkmanager wifi"
+order += "networkmanager eth"
+order += "group vpn"
+order += "bluetooth"
+order += "sysdata"
+order += "diskdata"
+order += "volume_status"
+order += "battery_level"
+
+
+# General config
+general {
+        colors = false
+        interval = 5
+}
+
+py3status {
+        align = center
+        separator_block_width = 25
+}
+
+
+# Modules (alphabetical order)
+battery_level {
+        format = "{icon} {percent}% {time_remaining}"
+        format_notify_charging = "Charging ({percent}%)"
+        format_notify_discharging = "{time_remaining}"
+        blocks = "󰂎󰁺󰁻󰁼󰁽󰁾󰁿󰂀󰂁󰂂󰁹"
+        charging_character = "󰂄"
+        notify_low_level = true
+        threshold_bad = 10
+        threshold_degraded = 30
+}
+
+bluetooth {
+        format_adapter = "\?if=powered 󰂯 {format_device}|󰂲"
+        format_device = "\?if=connected {alias} {battery}%"
+        on_click 1 = "exec blueman-manager"
+        on_click 3 = "exec pkill blueman-manager"
+}
+
+clock {
+        format = "{Local}"
+        format_time = "%a %d de %b %H:%M"
+}
+
+diskdata {
+        disk = "/"
+        format = "󱛟 {used_percent:.0f}%"
+}
+
+# `vpn_status` has bug which conflicts with virbr0 libvirt network.
+# Using i3status approach, wrapped on py3status group for proper formatting
+group vpn {
+        path_exists vpn {
+                path = "/proc/sys/net/ipv4/conf/tun0"
+                format = "󰒄 %title"
+                format_down = ""
+        }
+}
+
+networkmanager eth {
+        devices = ['e*']
+        format_device = "[\?if=general_connection  ]"
+        on_click 1 = "exec foot --app-id nmtui bash -c 'nmtui'"
+}
+
+networkmanager wifi {
+        devices = ['w*']
+        format_device = "[\?if=general_connection 󰖩 {ap_ssid} {ap_signal}%|󰖪]"
+        on_click 1 = "exec foot --app-id nmtui bash -c 'nmtui'"
+}
+
+sysdata {
+        format = "[  {cpu_used_percent:.0f}%] [  {mem_used_percent:.0f}%]"
+        on_click 1 = "exec foot htop"
+}
+
+volume_status {
+        command = "pactl"
+        format = "󰕾 {percentage}%"
+        format_muted = "󰖁"
+        max_volume = 100
+}

@@ -8,8 +8,6 @@ exec systemctl --user import-environment DISPLAY WAYLAND_DISPLAY SWAYSOCK XDG_CU
 exec dbus-update-activation-environment --systemd DISPLAY WAYLAND_DISPLAY SWAYSOCK XDG_CURRENT_DESKTOP
 # Notification
 exec mako
-# Bluetooth
-# exec blueman-applet
 # Night color temperature
 exec gammastep -l -25:-47
 
@@ -40,6 +38,7 @@ output * bg $(find $wallpaper_dir -type f | shuf -n 1) fill
 # DOCS: `man 5 sway-input`
 input "type:keyboard" {
     xkb_layout br
+    xkb_numlock enabled
 }
 
 ### Idle configuration
@@ -75,8 +74,11 @@ for_window [app_id="thunar" title="Create *"] floating enable, move position cen
 # Float utility windows
 for_window [app_id="pavucontrol"] floating enable, move position center
 for_window [app_id="blueman-manager"] floating enable, move position center
+for_window [app_id="nmtui"] floating enable, resize set 800 800, move position center
 
 ### Appearence
+#
+# DOCS: https://catppuccin.com/palette/
 font pango:JetBrainsMono Nerd Font 12
 
 set $bg         #6c7086
@@ -84,26 +86,31 @@ set $active     #45475a
 set $inactive   #313244
 set $fg         #cdd6f4
 set $urgent     #f38ba8
+set $text_urg   #181825
 set $bar_bg     #11111b
 
 # class                 border    bg        text    indicator child_border
 client.focused          $active   $active   $fg     $active   $active
 client.focused_inactive $inactive $inactive $bg     $inactive $inactive
 client.unfocused        $inactive $inactive $bg     $inactive $inactive
-client.urgent           $urgent   $urgent   $fg     $urgent   $urgent
+client.urgent           $urgent   $urgent   $text_urg     $urgent   $urgent
 
 ### Status Bar
 #
 # Read `man 5 sway-bar` for more information about this section.
 bar {
     position top
-    status_command i3status
+    status_command py3status
+
+    # Tray
+    tray_output none
 
     colors {
         statusline $fg
         background $bar_bg
         focused_workspace $active $active $fg
         inactive_workspace $bar_bg $bar_bg $bg
+        urgent_workspace $urgent $urgent $text_urg
     }
 }
 
@@ -210,9 +217,9 @@ bar {
 
 ## Media
     # Special keys to adjust volume via PulseAudio
-    bindsym --locked XF86AudioMute exec pactl set-sink-mute \@DEFAULT_SINK@ toggle
-    bindsym --locked XF86AudioLowerVolume exec pactl set-sink-volume \@DEFAULT_SINK@ -5%
-    bindsym --locked XF86AudioRaiseVolume exec pactl set-sink-volume \@DEFAULT_SINK@ +5%
+    bindsym --locked XF86AudioMute exec sh -c 'pactl set-sink-mute @DEFAULT_SINK@ toggle; killall -s USR1 py3status'
+    bindsym --locked XF86AudioLowerVolume exec sh -c 'pactl set-sink-volume @DEFAULT_SINK@ -5%; killall -s USR1 py3status'
+    bindsym --locked XF86AudioRaiseVolume exec sh -c '[ "$(pactl get-sink-volume @DEFAULT_SINK@ | grep -oP "\d+%" | head -1 | tr -d %)" -lt 100 ] && pactl set-sink-volume @DEFAULT_SINK@ +5%; killall -s USR1 py3status'
     bindsym --locked XF86AudioMicMute exec pactl set-source-mute \@DEFAULT_SOURCE@ toggle
     # Special keys to adjust brightness via brightnessctl
     bindsym --locked XF86MonBrightnessDown exec brightnessctl set 5%-

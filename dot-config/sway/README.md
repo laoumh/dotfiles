@@ -8,9 +8,8 @@ repos or remote script piping.
 
 ## Decisions Made
 
-- **Bar**: swaybar + i3status + wrapper script (JSON i3bar protocol)
-  - i3status handles: wifi, ethernet, VPN, battery, memory, time
-  - Wrapper script injects: bluetooth status, better separators
+- **Bar**: swaybar + py3status
+  - Modules: clock, networkmanager, vpn_status, bluetooth, sysdata, diskdata, volume_status, battery_level
   - Non-interactive bar; all actions via keybindings or fuzzel menus
 - **Launcher**: fuzzel (already configured)
 - **Terminal**: foot (already configured, catppuccin-mocha, JetBrainsMono Nerd Font)
@@ -49,13 +48,13 @@ but individual ideas may be adapted from it.
 ### Visual/UI
 - [x] Notification daemon — mako
 - [x] Wallpaper
-- [x] Status bar — swaybar + i3status + wrapper
+- [x] Status bar — swaybar + py3status
 - [x] Application launcher — fuzzel
 
 ### Connectivity
-- [ ] WiFi — i3status + nmtui via menu (fuzzel+nmcli quick-connect planned)
-- [ ] Bluetooth — wrapper script for bar status, blueman for management
-- [x] VPN — i3status path_exists
+- [x] WiFi — py3status networkmanager + nmtui
+- [x] Bluetooth — py3status module for bar status, blueman for management
+- [x] VPN — py3status vpn_status
 
 ### System Integration
 - [x] Screen locking — swaylock + swayidle
@@ -73,7 +72,7 @@ but individual ideas may be adapted from it.
 
 ### Power
 - [x] Power menu script — fuzzel-based (lock, logout, reboot, shutdown)
-- [x] Battery indicator — i3status
+- [x] Battery indicator — py3status battery_level
 - [x] Idle/suspend — swayidle
 - [x] Lid close behavior — logind defaults (suspend), swayidle locks before sleep
 
@@ -147,7 +146,7 @@ Run `~/dotfiles/scripts/set-xdg-defaults.sh` to set default apps
 ~/dotfiles/dot-config/
 ├── sway/config       # Main sway config
 ├── sway/menu         # Fuzzel-based settings launcher
-├── i3status/config   # Bar status modules
+├── py3status/config  # Bar status modules
 ├── fuzzel/fuzzel.ini # Launcher config
 └── foot/foot.ini     # Terminal config
 ```

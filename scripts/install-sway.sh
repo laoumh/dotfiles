@@ -24,7 +24,7 @@ CORE=(
 
 # Bar + status
 BAR=(
-    i3status
+    py3status
     # swaybar ships with sway
 )
 
