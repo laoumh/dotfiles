@@ -3,12 +3,12 @@
 # Define your options and their commands
 # Format: "Label|Command"
 options=(
-    "󰖩  Wi-Fi Settings|nm-connection-editor"
-    "󰂯  Bluetooth Manager|blueman-manager"
-    "󰍹  Display/Monitor|wdisplays"
-    "󰓃  Audio Mixer|pavucontrol"
-    "󰏫  Theme & Appearance|nwg-look"
-    "󰌌  Keyboard Settings|foot -e nvim ~/.config/sway/config"
+    "󰲝  Rede|foot --app-id 'nmtui' bash -c 'nmtui'"
+    "󰂯  Bluetooth|blueman-manager"
+    "󰍹  Monitores|wdisplays"
+    "󰓃  Audio|pavucontrol"
+    "󰏫  Tema & Aparência|nwg-look"
+    "󰰢  Sway config|foot -e nvim ~/.config/sway/config"
 )
 
 # Join labels with newlines for fuzzel

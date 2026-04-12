@@ -22,7 +22,7 @@ repos or remote script piping.
 - **Notifications**: mako (minimal, Wayland-native)
 - **Power menu**: fuzzel-based script (lock, logout, reboot, shutdown)
 - **Night light**: gammastep (Wayland-native, location-based)
-- **Display manager**: GDM for now; lightdm when removing GNOME
+- **Display manager**: greetd + nwg-hello
 - **D-Bus/portals**: environment exported via exec at startup (fixes GTK app slow launch)
 - **Help script**: fuzzel-based keybinding viewer ($mod+? to launch)
   - Parses inline `# description` comments from sway config
@@ -54,12 +54,12 @@ but individual ideas may be adapted from it.
 ### Connectivity
 - [x] WiFi — py3status networkmanager + nmtui
 - [x] Bluetooth — py3status module for bar status, blueman for management
-- [x] VPN — py3status vpn_status
+- [x] VPN — py3status path_exists (vpn_status has bug with libvirt tun interfaces)
 
 ### System Integration
 - [x] Screen locking — swaylock + swayidle
-- [ ] Polkit agent (lxpolkit or polkit-gnome)
-- [ ] Keyring/secrets (gnome-keyring or keepassxc)
+- [ ] Polkit agent — add when needed (lxpolkit)
+- [ ] Keyring/secrets — likely not needed (WiFi in system-connections, SSH via keychain)
 - [x] XDG portals — xdg-desktop-portal-wlr + gtk, env exported to systemd/D-Bus
 - [x] Clipboard — wl-clipboard
 
@@ -91,11 +91,11 @@ but individual ideas may be adapted from it.
 - [x] PDF viewer — zathura (default) + sioyek for dissertation work
 - [ ] Automounting USB (udiskie)
 - [ ] environment.d setup for PATH and env vars
-- [ ] Update reminders — notify-send via systemd user timer (apt-daily.timer refreshes cache)
+- [x] Update reminders — notify-send via systemd user timer (apt-daily.timer refreshes cache)
 
 ### Scripts
-- [ ] Dependency install script — single script to apt-install the full sway environment
-- [ ] XDG defaults script — set default apps via xdg-settings/xdg-mime (browser, PDF viewer, etc.)
+- [x] Dependency install script — single script to apt-install the full sway environment
+- [x] XDG defaults script — set default apps via xdg-settings/xdg-mime (browser, PDF viewer, etc.)
 
 ## Installation
 
@@ -134,6 +134,32 @@ cp -r /tmp/catppuccin-gtk/icons/Catppuccin-Mocha ~/.icons/
 ```
 
 Select it with `nwg-look`.
+
+### Display manager (greetd + nwg-hello)
+
+```
+sudo apt install greetd nwg-hello
+```
+
+Configure greetd at `/etc/greetd/config.toml`:
+
+```toml
+[terminal]
+vt = 7
+
+[default_session]
+command = "sway -c /etc/nwg-hello/sway-config"
+user = "_greetd"
+```
+
+Add keyboard config to `/etc/nwg-hello/sway-config`:
+
+```
+input "type:keyboard" {
+    xkb_layout br
+    xkb_numlock enabled
+}
+```
 
 ### XDG defaults
 

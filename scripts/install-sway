@@ -22,6 +22,12 @@ CORE=(
     xdg-desktop-portal-wlr xdg-desktop-portal-gtk
 )
 
+# Greeter
+GREETER=(
+    greetd
+    nwg-hello
+)
+
 # Bar + status
 BAR=(
     py3status
@@ -30,7 +36,7 @@ BAR=(
 
 # Terminal, launcher, notifications
 SHELL_UI=(
-    foot foot-themes fuzzel mako-notifier
+    foot foot-terminfo foot-themes fuzzel mako-notifier
 )
 
 # Apps referenced in config / README
@@ -81,6 +87,7 @@ THEMING=(
 
 ALL_PACKAGES=(
     "${CORE[@]}"
+    "${GREETER[@]}"
     "${BAR[@]}"
     "${SHELL_UI[@]}"
     "${APPS[@]}"
