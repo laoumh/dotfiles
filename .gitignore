@@ -1,2 +1,4 @@
 dot-config/sway/config.local
 dot-config/systemd/user/timers.target.wants/
+scripts/img-theme-convert/raw-images/
+scripts/img-theme-convert/remapped-images/

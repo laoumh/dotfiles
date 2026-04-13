@@ -45,6 +45,7 @@ APPS=(
     thunar            # file manager
     zathura           # PDF viewer
     pavucontrol       # audio mixer (menu script)
+    imv               # image viewer
     # Wi-Fi: nmtui/nmcli ship with network-manager, no extra package needed
 )
 
