@@ -1,11 +1,14 @@
 ##### Sway Config #####
 #
 # DOCS: `man 5 sway`
+#
+# Add local specific configurations to config.local
 
 ### Autostart
-# Environment for D-Bus and xdg-portals
+# Environment for D-Bus and xdg-portals. From /etc/sway/config.d
 exec systemctl --user import-environment DISPLAY WAYLAND_DISPLAY SWAYSOCK XDG_CURRENT_DESKTOP
-exec dbus-update-activation-environment --systemd DISPLAY WAYLAND_DISPLAY SWAYSOCK XDG_CURRENT_DESKTOP
+exec hash dbus-update-activation-environment 2>/dev/null && \
+        dbus-update-activation-environment --systemd DISPLAY WAYLAND_DISPLAY SWAYSOCK XDG_CURRENT_DESKTOP=sway
 # Notification
 exec mako
 # Night color temperature
@@ -38,7 +41,6 @@ output * bg $(find $wallpaper_dir -type f | shuf -n 1) fill
 # DOCS: `man 5 sway-input`
 input "type:keyboard" {
     xkb_layout br
-    xkb_numlock enabled
 }
 
 ### Idle configuration
@@ -231,4 +233,5 @@ bar {
     # Window screenshot
     bindsym Shift+Print exec ~/.config/sway/scripts/screenshot-window.sh
 
-include /etc/sway
+### Machine-specific config
+include config.local
