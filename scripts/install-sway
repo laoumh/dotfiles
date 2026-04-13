@@ -51,16 +51,17 @@ APPS=(
 
 # CLI tools used in keybindings / scripts
 TOOLS=(
+    brightnessctl     # brightness keys
+    gammastep         # night light
     gawk              # help script parser
     grim              # screenshot
+    jq                # general utility / bar wrapper
+    lsix              # terminal img viewer
+    playerctl         # media keys (README planned)
+    pulseaudio-utils  # pactl for volume keys
     slurp             # area selection for screenshot
     swappy            # screenshot editor
-    brightnessctl     # brightness keys
-    pulseaudio-utils  # pactl for volume keys
-    playerctl         # media keys (README planned)
     wl-clipboard      # clipboard (README planned)
-    gammastep         # night light
-    jq                # general utility / bar wrapper
 )
 
 # GUI utilities from menu script
