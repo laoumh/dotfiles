@@ -29,7 +29,7 @@ py3status {
 
 # Modules (alphabetical order)
 battery_level {
-        format = "{icon} {percent}% {time_remaining}"
+        format = "{icon} {percent}%"
         format_notify_charging = "Charging ({percent}%)"
         format_notify_discharging = "{time_remaining}"
         blocks = "󰂎󰁺󰁻󰁼󰁽󰁾󰁿󰂀󰂁󰂂󰁹"
@@ -48,7 +48,7 @@ bluetooth {
 
 clock {
         format = "{Local}"
-        format_time = "%a %d de %b %H:%M"
+        format_time = "%a %d-%b %H:%M"
 }
 
 diskdata {
