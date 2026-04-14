@@ -14,6 +14,6 @@ palette_img=$1
 
 mkdir -p "$OUTPUT_DIR"
 for img in $INPUT_DIR/* ; do
-        magick "$img" -colorspace sRGB -remap "$palette_img" "$OUTPUT_DIR/$(basename $img)"
+        magick "$img" -colorspace sRGB -dither none -remap "$palette_img" "$OUTPUT_DIR/$(basename $img)"
         echo "$OUTPUT_DIR/$(basename $img)" convertido
 done
