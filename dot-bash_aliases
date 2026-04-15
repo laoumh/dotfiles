@@ -14,7 +14,8 @@ alias fgrep='fgrep --color=auto'
 alias grep='grep --color=auto'
 
 alias f='find . -type f -iname'
-alias g='git'
+
+alias bat='batcat'
 
 # Definições
 alias ccuec-vpn-connect='forticlient vpn connect ccuec-gw -u lmaraujo -s'
