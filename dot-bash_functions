@@ -2,7 +2,7 @@
 function nman {
     # --cmd é executado antes de carregar as configurações e -c depois
     check_command nvim && \
-    nvim --cmd ":cd ~" -c ":Man $1 | only"
+    nvim --clean --cmd ":cd ~" -c ":Man $1 | only"
 }
 # Tenta autocompletar nman com opções man
 man_completion=/usr/share/bash-completion/completions/man
