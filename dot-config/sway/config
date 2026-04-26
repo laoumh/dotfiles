@@ -36,6 +36,8 @@ include /etc/sway/config-vars.d/*
 # Wallpaper (select one from `wallpaper_dir`)
 output * bg $(find $wallpaper_dir -type f | shuf -n 1) fill
 
+xwayland disable
+
 ### Input configuration
 #
 # DOCS: `man 5 sway-input`
