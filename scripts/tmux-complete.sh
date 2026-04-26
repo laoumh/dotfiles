@@ -1,5 +1,6 @@
 #!/bin/bash
 
+# Obs: desnecessário após bash-completions >= 2.17
 # Instala autocompletar para tmux
 # https://github.com/imomaliev/tmux-bash-completion?tab=readme-ov-file
 
