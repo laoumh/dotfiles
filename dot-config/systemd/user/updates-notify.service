@@ -1,0 +1,7 @@
+# Depende de `apt-daily.timer` para manter apt-cache sempre atualizado
+[Unit]
+Description=Notifica atualizações de segurança
+
+[Service]
+Type=oneshot
+ExecStart=%h/dotfiles/tasks/updates-notify

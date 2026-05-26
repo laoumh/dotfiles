@@ -1,0 +1,19 @@
+#!/usr/bin/env bash
+#
+# Converte imagens para paleta de referência
+
+INPUT_DIR=./raw-images
+OUTPUT_DIR=./remapped-images
+
+if [[ $# -ne 1 ]]; then
+        echo "Uso: $0 <paleta.png>"
+        echo "Imagens de entrada devem estar em './raw-images'"
+        exit
+fi
+palette_img=$1
+
+mkdir -p "$OUTPUT_DIR"
+for img in $INPUT_DIR/* ; do
+        magick "$img" -colorspace sRGB -dither none -remap "$palette_img" "$OUTPUT_DIR/$(basename $img)"
+        echo "$OUTPUT_DIR/$(basename $img)" convertido
+done

@@ -1,0 +1,69 @@
+#!/bin/bash
+# Display sway keybindings in fuzzel
+
+sway_config="$HOME/.config/sway/config"
+
+# Extract variable definitions
+declare -A vars
+while IFS= read -r line; do
+    if [[ $line =~ ^set\ \$([a-zA-Z_]+)\ (.+)$ ]]; then
+        vars["${BASH_REMATCH[1]}"]="${BASH_REMATCH[2]}"
+    fi
+done < "$sway_config"
+
+# Resolve variables in a string
+resolve_vars() {
+    local str="$1"
+    for var in "${!vars[@]}"; do
+        str="${str//\$$var/${vars[$var]}}"
+    done
+    echo "$str"
+}
+
+# Turn exec commands into readable descriptions.
+# Add new rules here as needed.
+friendly_name() {
+    local cmd="$1"
+    case "$cmd" in
+        *pactl*source*mute*)   echo "mic mute" ;;
+        *pactl*mute*toggle)    echo "mute toggle" ;;
+        *pactl*-[0-9]*)        echo "volume down" ;;
+        *pactl*+[0-9]*)        echo "volume up" ;;
+        *brightnessctl*-*)     echo "brightness down" ;;
+        *brightnessctl*+*)     echo "brightness up" ;;
+        *grim*)                echo "screenshot" ;;
+        *screenshot-window*)   echo "window screenshot" ;;
+        *swaylock*)            echo "lock screen" ;;
+        *swaymsg\ exit*)       echo "exit sway" ;;
+        *)                     echo "$cmd" ;;
+    esac
+}
+
+# Parse section headers and bindsym lines
+gawk '
+/^## / {
+    sub(/^## /, "")
+    printf "\n── %s ──\n", $0
+    next
+}
+/^[[:space:]]*bindsym/ {
+    line = $0
+    sub(/^[[:space:]]*bindsym[[:space:]]+/, "", line)
+    sub(/--locked[[:space:]]+/, "", line)
+    if (match(line, /^([^[:space:]]+)[[:space:]]+(.+)$/, arr)) {
+        print arr[1] "\t" arr[2]
+    }
+}
+' "$sway_config" | while IFS=$'\t' read -r key cmd; do
+    if [[ -z "$cmd" ]]; then
+        echo "$key"
+    else
+        rkey=$(resolve_vars "$key")
+        if [[ "$cmd" == exec* ]]; then
+            desc=$(friendly_name "$cmd")
+        else
+            desc="$cmd"
+        fi
+        printf "%-26s%s\n" "$rkey" "$desc"
+    fi
+done | fuzzel --dmenu --prompt "Keybindings: " --width 60

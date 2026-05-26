@@ -1,0 +1,24 @@
+#!/usr/bin/env bash
+
+# Define your options and their commands
+# Format: "Label|Command"
+options=(
+    "󰲝  Rede|foot --app-id 'nmtui' bash -c 'nmtui'"
+    "󰂯  Bluetooth|blueman-manager"
+    "󰍹  Monitores|wdisplays"
+    "󰓃  Audio|pavucontrol"
+    "󰏫  Tema & Aparência|nwg-look"
+    "󰰢  Sway config|foot -e nvim ~/.config/sway/config"
+)
+
+# Join labels with newlines for fuzzel
+# choice=$(for i in "${options[@]}"; do echo "${i%|*}"; done | fuzzel --dmenu --p "⚙️ Settings: ")
+choice=$(for i in "${options[@]}"; do echo "${i%|*}"; done | fuzzel --dmenu)
+
+# Execute the corresponding command
+for i in "${options[@]}"; do
+    if [[ "${i%|*}" == "$choice" ]]; then
+        eval "${i#*|}"
+        break
+    fi
+done

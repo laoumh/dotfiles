@@ -1,0 +1,239 @@
+##### Sway Config #####
+#
+# DOCS: `man 5 sway`
+#
+# Add local specific configurations to config.local
+
+### Autostart
+# Environment for D-Bus and xdg-portals. From /etc/sway/config.d
+exec systemctl --user import-environment DISPLAY WAYLAND_DISPLAY SWAYSOCK XDG_CURRENT_DESKTOP
+exec hash dbus-update-activation-environment 2>/dev/null && \
+        dbus-update-activation-environment --systemd DISPLAY WAYLAND_DISPLAY SWAYSOCK XDG_CURRENT_DESKTOP=sway
+# Notification
+exec mako
+# Night color temperature
+exec gammastep -l -25:-47
+
+
+### Variables
+#
+set $mod Mod4
+set $left h
+set $down j
+set $up k
+set $right l
+set $term foot
+set $menu fuzzel
+set $scripts ~/.config/sway/scripts
+set $wallpaper_dir ~/.config/sway/wallpapers/catppuccin-mocha
+
+include /etc/sway/config-vars.d/*
+
+### Output configuration
+#
+# DOCS: `man 5 sway-output`
+
+# Wallpaper (select one from `wallpaper_dir`)
+output * bg $(find $wallpaper_dir -type f | shuf -n 1) fill
+
+xwayland disable
+
+### Input configuration
+#
+# DOCS: `man 5 sway-input`
+input "type:keyboard" {
+    xkb_layout br
+}
+
+### Idle configuration
+exec swayidle -w \
+         timeout 300 'swaylock' \
+         timeout 600 'swaymsg "output * power off"' resume 'swaymsg "output * power on"' \
+         before-sleep 'swaylock'
+
+# Drag floating windows by holding down $mod and left mouse button.
+# Resize them with right mouse button + $mod.
+# Despite the name, also works for non-floating windows.
+# Change normal to inverse to use left mouse button for resizing and right
+# mouse button for dragging.
+floating_modifier $mod normal
+
+### Scratchpad: Mousepad
+# Sway has a "scratchpad", which is a bag of holding for windows.
+# You can send windows there and get them back later.
+exec_always mousepad
+for_window [app_id="mousepad"] move to scratchpad, resize set 1000 800, move position center
+
+### Window rules
+# Inhibit idle for fullscreen apps (e.g. videos)
+for_window [app_id=".*"] inhibit_idle fullscreen
+
+# Float Thunar dialogs
+for_window [app_id="thunar" title="File Operation Progress"] floating enable, move position center
+for_window [app_id="thunar" title="Confirm *"] floating enable, move position center
+for_window [app_id="thunar" title="Properties"] floating enable, move position center
+for_window [app_id="thunar" title="Rename *"] floating enable, move position center
+for_window [app_id="thunar" title="Create *"] floating enable, move position center
+
+# Float utility windows
+for_window [app_id="pavucontrol"] floating enable, move position center
+for_window [app_id="blueman-manager"] floating enable, move position center
+for_window [app_id="nmtui"] floating enable, resize set 800 800, move position center
+
+### Appearence
+#
+# DOCS: https://catppuccin.com/palette/
+font pango:JetBrainsMono Nerd Font 12
+
+set $bg         #6c7086
+set $active     #45475a
+set $inactive   #313244
+set $fg         #cdd6f4
+set $urgent     #f38ba8
+set $text_urg   #181825
+set $bar_bg     #11111b
+
+# class                 border    bg        text    indicator child_border
+client.focused          $active   $active   $fg     $active   $active
+client.focused_inactive $inactive $inactive $bg     $inactive $inactive
+client.unfocused        $inactive $inactive $bg     $inactive $inactive
+client.urgent           $urgent   $urgent   $text_urg     $urgent   $urgent
+
+### Status Bar
+#
+# Read `man 5 sway-bar` for more information about this section.
+bar {
+    position top
+    status_command py3status
+
+    # Tray
+    tray_output none
+
+    colors {
+        statusline $fg
+        background $bar_bg
+        focused_workspace $active $active $fg
+        inactive_workspace $bar_bg $bar_bg $bg
+        urgent_workspace $urgent $urgent $text_urg
+    }
+}
+
+### Keybindings
+#
+# The help script ($mod+?) parses this section.
+# For exec commands, it uses friendly_name() to generate descriptions.
+# For everything else, it shows the command as-is.
+#
+
+## Session
+    bindsym $mod+Shift+c reload
+    bindsym $mod+Shift+l exec swaylock
+    bindsym $mod+Shift+e exec $scripts/power
+
+## Launchers
+    bindsym $mod+Return exec $term
+    bindsym $mod+d exec $menu
+    bindsym $mod+question exec $scripts/help
+    bindsym $mod+m exec $scripts/menu
+
+## Windows
+    bindsym $mod+x kill
+    # Move your focus around
+    bindsym $mod+$left focus left
+    bindsym $mod+$down focus down
+    bindsym $mod+$up focus up
+    bindsym $mod+$right focus right
+
+    bindsym $mod+a focus parent
+    bindsym $mod+n focus next
+    bindsym $mod+p focus prev
+    # Move the focused window
+    bindsym $mod+Left move left
+    bindsym $mod+Down move down
+    bindsym $mod+Up move up
+    bindsym $mod+Right move right
+
+## Layout
+    # You can "split" the current object of your focus with
+    # $mod+b or $mod+v, for horizontal and vertical splits
+    # respectively.
+    bindsym $mod+b splith
+    bindsym $mod+v splitv
+    # Switch the current container between different layout styles
+    bindsym $mod+w layout tabbed
+    bindsym $mod+t layout toggle split
+    bindsym $mod+F11 fullscreen
+    # Toggle the current focus between tiling and floating mode
+    bindsym $mod+f floating toggle
+    # Swap focus between the tiling area and the floating area
+    bindsym $mod+Shift+f focus mode_toggle
+    # Resize
+    bindsym $mod+r mode "resize"
+    mode "resize" {
+        # Small shrink/grow
+        bindsym Left resize shrink width 10px
+        bindsym Down resize grow height  10px
+        bindsym Up resize shrink height  10px
+        bindsym Right resize grow width  10px
+        # Small shrink/grow
+        bindsym Shift+Left resize shrink width 100px
+        bindsym Shift+Down resize grow height  100px
+        bindsym Shift+Up resize shrink height  100px
+        bindsym Shift+Right resize grow width  100px
+
+        bindsym Return mode "default"
+        bindsym Escape mode "default"
+    }
+
+## Workspaces
+    # Note: workspaces can have any name you want, not just numbers.
+    # We just use 1-10 as the default.
+    bindsym $mod+1 workspace number 1: Work
+    bindsym $mod+2 workspace number 2:  Nav
+    bindsym $mod+3 workspace number 3: Term
+    bindsym $mod+4 workspace number 4:󰯫 Aux
+    bindsym $mod+5 workspace number 5:󰯫 Aux
+    bindsym $mod+6 workspace number 6:󰯫 Aux
+    bindsym $mod+7 workspace number 7:󰯫 Aux
+    bindsym $mod+8 workspace number 8:󰯫 Aux
+    bindsym $mod+9 workspace number 9:󰯫 Aux
+    bindsym $mod+0 workspace number 10:󰯫 Aux
+    # Move between workspaces
+    bindsym $mod+Shift+n workspace next
+    bindsym $mod+Shift+p workspace prev
+    # Move focused container to workspace
+    bindsym $mod+Shift+1 move container to workspace number 1: Work
+    bindsym $mod+Shift+2 move container to workspace number 2:  Nav
+    bindsym $mod+Shift+3 move container to workspace number 3: Term
+    bindsym $mod+Shift+4 move container to workspace number 4:󰯫 Aux
+    bindsym $mod+Shift+5 move container to workspace number 5:󰯫 Aux
+    bindsym $mod+Shift+6 move container to workspace number 6:󰯫 Aux
+    bindsym $mod+Shift+7 move container to workspace number 7:󰯫 Aux
+    bindsym $mod+Shift+8 move container to workspace number 8:󰯫 Aux
+    bindsym $mod+Shift+9 move container to workspace number 9:󰯫 Aux
+    bindsym $mod+Shift+0 move container to workspace number 10:󰯫 Aux
+
+## Scratchpad
+    # Move the currently focused window to the scratchpad
+    bindsym $mod+Shift+minus move scratchpad
+    # Cycle through scratchpads
+    bindsym $mod+minus scratchpad show
+
+## Media
+    # Special keys to adjust volume via PulseAudio
+    bindsym --locked XF86AudioMute exec sh -c 'pactl set-sink-mute @DEFAULT_SINK@ toggle; killall -s USR1 py3status'
+    bindsym --locked XF86AudioLowerVolume exec sh -c 'pactl set-sink-volume @DEFAULT_SINK@ -5%; killall -s USR1 py3status'
+    bindsym --locked XF86AudioRaiseVolume exec sh -c '[ "$(pactl get-sink-volume @DEFAULT_SINK@ | grep -oP "\d+%" | head -1 | tr -d %)" -lt 100 ] && pactl set-sink-volume @DEFAULT_SINK@ +5%; killall -s USR1 py3status'
+    bindsym --locked XF86AudioMicMute exec pactl set-source-mute \@DEFAULT_SOURCE@ toggle
+    # Special keys to adjust brightness via brightnessctl
+    bindsym --locked XF86MonBrightnessDown exec brightnessctl set 5%-
+    bindsym --locked XF86MonBrightnessUp exec brightnessctl set 5%+
+
+## Screenshot
+    # Area screenshot
+    bindsym Print exec grim -g "$(slurp)" - | swappy -f -
+    # Window screenshot
+    bindsym Shift+Print exec ~/.config/sway/scripts/screenshot-window.sh
+
+### Machine-specific config
+include config.local

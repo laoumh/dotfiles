@@ -1,30 +1,56 @@
 #!/usr/bin/env bash
+# Download and install a Nerd Font from a release URL.
+# Browse available fonts at: https://github.com/ryanoasis/nerd-fonts/releases/
+#
+# Usage: ./install-font.sh <URL>
+# Example: ./install-font.sh https://github.com/ryanoasis/nerd-fonts/releases/download/v3.4.0/JetBrainsMono.tar.xz
+
+set -euo pipefail
 
 if [[ $# -ne 1 ]]; then
-    echo "Uso: $0 <fonte.zip>"
-    exit
+    echo "Uso: $0 <URL>"
+    echo
+    echo "Baixa e instala uma Nerd Font a partir de uma URL de release."
+    echo "Veja as fontes disponíveis em:"
+    echo "  https://github.com/ryanoasis/nerd-fonts/releases/"
+    echo
+    echo "Exemplo:"
+    echo "  $0 https://github.com/ryanoasis/nerd-fonts/releases/download/v3.4.0/JetBrainsMono.tar.xz"
+    exit 1
 fi
 
-FONT_FILE=$1
+URL=$1
+FILENAME=$(basename "$URL")
 
-if ! (file "$FONT_FILE" | grep -q -i "zip archive") ; then
-    echo "$FONT_FILE não é um arquivo Zip"
-    exit
-fi
+# Detect archive type and derive font name
+case "$FILENAME" in
+    *.tar.xz) FONT_NAME="${FILENAME%.tar.xz}" ;;
+    *.zip)    FONT_NAME="${FILENAME%.zip}" ;;
+    *)        echo "Formato não suportado: $FILENAME (esperado .tar.xz ou .zip)"; exit 1 ;;
+esac
 
-# Instala no diretório local de fontes
-FONT_NAME=$(basename "$FONT_FILE" .zip)
 FONT_DIR="$HOME/.local/share/fonts/$FONT_NAME"
+TMPDIR=$(mktemp -d)
+trap 'rm -rf "$TMPDIR"' EXIT
 
-echo "Descompactando fonte"
+echo ":: Baixando $FILENAME..."
+curl -fL -o "$TMPDIR/$FILENAME" "$URL"
+
+# Remove old version
+if [[ -d "$FONT_DIR" ]]; then
+    echo ":: Removendo versão anterior em $FONT_DIR"
+    rm -rf "$FONT_DIR"
+fi
+
+echo ":: Instalando em $FONT_DIR"
 mkdir -p "$FONT_DIR"
-unzip -n "$FONT_FILE" -d "$FONT_DIR"
-echo
+case "$FILENAME" in
+    *.tar.xz) tar xf "$TMPDIR/$FILENAME" -C "$FONT_DIR" ;;
+    *.zip)    unzip -o "$TMPDIR/$FILENAME" -d "$FONT_DIR" ;;
+esac
 
-# Atualiza cache e verifica
-echo "Gerando cache"
+echo ":: Atualizando cache de fontes"
 fc-cache "$FONT_DIR"
-echo
 
-echo "Verificando fonte"
-fc-list | grep "$FONT_NAME"
+echo ":: Fontes instaladas:"
+fc-list | grep "$FONT_NAME" | head -5

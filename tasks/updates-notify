@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+#
+# Notifica atualizações de segurança
+
+all_updates=$(apt-get -s upgrade 2>/dev/null | grep ^Inst)
+count_all=$(grep -c . <<< "$all_updates")
+count_security=$(grep -c 'Debian-Security' <<< "$all_updates")
+
+# Notifica somente se houver atualizações de segurança
+if [[ $count_security -gt 0 ]] ; then
+        notify-send "Atualizações de segurança" "$count_all atualizações disponíveis ($count_security de segurança)"
+fi

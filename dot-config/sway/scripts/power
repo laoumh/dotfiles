@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+
+chosen=$(printf "Lock\nLogout\nReboot\nShutdown" | fuzzel --dmenu -p "Power: ")
+
+case "$chosen" in
+    Lock) swaylock ;;
+    Logout) swaymsg exit ;;
+    Reboot) systemctl reboot ;;
+    Shutdown) systemctl poweroff ;;
+esac

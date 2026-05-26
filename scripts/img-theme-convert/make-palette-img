@@ -1,0 +1,38 @@
+#!/usr/bin/env bash
+#
+# Gera uma imagem PNG de referência de uma paleta
+
+IMG_OUT=catppuccin-mocha-palette.png
+
+# Cores devem ser precedidas de `xc:`
+PALETTE=(
+	'xc:#f5e0dc'
+	'xc:#f2cdcd'
+	'xc:#f5c2e7'
+	'xc:#cba6f7'
+	'xc:#f38ba8'
+	'xc:#eba0ac'
+	'xc:#fab387'
+	'xc:#f9e2af'
+	'xc:#a6e3a1'
+	'xc:#94e2d5'
+	'xc:#89dceb'
+	'xc:#74c7ec'
+	'xc:#89b4fa'
+	'xc:#b4befe'
+	'xc:#cdd6f4'
+	'xc:#bac2de'
+	'xc:#a6adc8'
+	'xc:#9399b2'
+	'xc:#7f849c'
+	'xc:#6c7086'
+	'xc:#585b70'
+	'xc:#45475a'
+	'xc:#313244'
+	'xc:#1e1e2e'
+	'xc:#181825'
+	'xc:#11111b'
+)
+
+magick "${PALETTE[@]}" +append "$IMG_OUT"
+echo "Paleta salva em $IMG_OUT"

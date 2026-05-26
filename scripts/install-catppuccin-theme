@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+#
+# Instala o tema GTK catppuccin
+
+echo "Instalando dependência 'sassc'"
+sudo apt-get install sassc
+
+echo "Baixando repositório catppuccin"
+git clone https://github.com/Fausto-Korpsvart/Catppuccin-GTK-Theme.git /tmp/catppuccin-gtk
+
+echo "Instalando tema"
+/tmp/catppuccin-gtk/themes/install.sh --dest "$HOME/.themes/" --theme all --color dark --size standard
+
+echo "Instalando ícones"
+mkdir -p "$HOME/.icons/"
+cp -r /tmp/catppuccin-gtk/icons/Catppuccin-Mocha ~/.icons/
+
+echo "Concluído"

@@ -1,0 +1,11 @@
+# Configurado para rodar diariamente às 9h da manhã
+[Unit]
+Description=Checa atualizações diariamente
+
+[Timer]
+OnBootSec=5min
+OnCalendar=*-*-* 09:00:00
+Persistent=true
+
+[Install]
+WantedBy=timers.target
