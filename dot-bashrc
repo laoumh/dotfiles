@@ -1,6 +1,6 @@
-# ~/.bashrc: executed by bash(1) for non-login shells.
-# see /usr/share/doc/bash/examples/startup-files (in the package bash-doc)
-# for examples
+# Docs:
+# - man bash
+# - /usr/share/doc/bash/examples/startup-files (in the package bash-doc)
 
 # If not running interactively, don't do anything
 case $- in
@@ -8,87 +8,51 @@ case $- in
       *) return;;
 esac
 
-# don't put duplicate lines or lines starting with space in the history.
-# See bash(1) for more options
-HISTCONTROL=ignoreboth
+##### PROMPT #####
 
-# append to the history file, don't overwrite it
-shopt -s histappend
+_prompt_command () {
+    local err_code=$?
 
-# for setting history length see HISTSIZE and HISTFILESIZE in bash(1)
-HISTSIZE=1000
-HISTFILESIZE=2000
+    # Cores
+    #   (b)old, (n)ormal, (r)eset (c)olor
+    #   (r)ed, (g)reen, (y)ellow, (b)lue, (m)agenta
+    local rc='\[\e[0m\]'
+    local br='\[\e[1;31m\]'
+    local bg='\[\e[1;32m\]'
+    local by='\[\e[1;33m\]'
+    local bb='\[\e[1;34m\]'
+    local nm='\[\e[0;35m\]'
 
-# check the window size after each command and, if necessary,
-# update the values of LINES and COLUMNS.
-shopt -s checkwinsize
+    # Janela do terminal
+    PS1="\[\e]0;\h\]"
 
-# If set, the pattern "**" used in a pathname expansion context will
-# match all files and zero or more directories and subdirectories.
-shopt -s globstar
-
-# make less more friendly for non-text input files, see lesspipe(1)
-[ -x /usr/bin/lesspipe ] && eval "$(SHELL=/bin/sh lesspipe)"
-
-# set variable identifying the chroot you work in (used in the prompt below)
-if [ -z "${debian_chroot:-}" ] && [ -r /etc/debian_chroot ]; then
-    debian_chroot=$(cat /etc/debian_chroot)
-fi
-
-# set a fancy prompt (non-color, unless we know we "want" color)
-case "$TERM" in
-    xterm-color|*-256color|foot*) color_prompt=yes;;
-esac
-
-# uncomment for a colored prompt, if the terminal has the capability; turned
-# off by default to not distract the user: the focus in a terminal window
-# should be on the output of commands, not on the prompt
-#force_color_prompt=yes
-
-if [ -n "$force_color_prompt" ]; then
-    if [ -x /usr/bin/tput ] && tput setaf 1 >&/dev/null; then
-	# We have color support; assume it's compliant with Ecma-48
-	# (ISO/IEC-6429). (Lack of such support is extremely rare, and such
-	# a case would tend to support setf rather than setaf.)
-	color_prompt=yes
-    else
-	color_prompt=
+    # Ambiente virtual
+    if [[ -n "$VIRTUAL_ENV_PROMPT" ]] ; then
+        PS1+="${nm}($VIRTUAL_ENV_PROMPT)${rc} "
+    elif [[ -n "$VIRTUAL_ENV" ]] ; then
+        PS1+="${nm}($(basename $VIRTUAL_ENV))${rc} "
     fi
-fi
 
-if [ "$color_prompt" = yes ]; then
-    PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\[\033[01;33m\]$(__git_ps1 " ( %s)")\[\033[00m\]\$ '
-else
-    PS1='${debian_chroot:+($debian_chroot)}\u@\h:\w\$ '
-fi
-unset color_prompt force_color_prompt
+    # Código de erro
+    if (( $err_code != 0 )) ; then
+        PS1+="${br}($err_code)${rc} "
+    fi
 
-# If this is an xterm set the title to user@host:dir
-case "$TERM" in
-xterm*|rxvt*|foot*)
-    # PS1="\[\e]0;${debian_chroot:+($debian_chroot)}\u@\h: \w\a\]$PS1"
-    PS1="\[\e]0;\h \a\]$PS1"
-    ;;
-*)
-    ;;
-esac
+    # Usuário e host
+    PS1+="${bg}\u@\h${rc}:"
 
-# Alias definitions.
-# See /usr/share/doc/bash-doc/examples in the bash-doc package.
-if [ -f ~/.bash_aliases ]; then
-    . ~/.bash_aliases
-fi
+    # Diretório atual
+    PS1+="${bb}\w${rc}"
 
-# enable programmable completion features (you don't need to enable
-# this, if it's already enabled in /etc/bash.bashrc and /etc/profile
-# sources /etc/bash.bashrc).
-if ! shopt -oq posix; then
-  if [ -f /usr/share/bash-completion/bash_completion ]; then
-    . /usr/share/bash-completion/bash_completion
-  elif [ -f /etc/bash_completion ]; then
-    . /etc/bash_completion
-  fi
-fi
+    # Git branch
+    PS1+="${by}$(__git_ps1 " ( %s)")${rc}"
+
+    # Caractere prompt
+    PS1+='\$ '
+}
+PROMPT_COMMAND=_prompt_command
+# Nós mesmos vamos estilizar o virtual env
+export VIRTUAL_ENV_DISABLE_PROMPT=1
 
 
 ##### FUNÇÕES #####
@@ -102,6 +66,16 @@ function check_command {
 [ -f ~/.bash_functions ] && source ~/.bash_functions
 
 ##### CONFIGURAÇÕES #####
+
+### SHELL OPTIONS
+shopt -s autocd
+shopt -s cdable_vars
+shopt -s cdspell
+shopt -s checkwinsize
+shopt -s dirspell
+shopt -s globstar
+shopt -s histappend
+
 
 ### COR MANPAGE
 
@@ -120,51 +94,45 @@ export LESS_TERMCAP_ue=$'\e[0m'
 # `grotty` legacy output (ver `man grotty`)
 export MANROFFOPT="-c"
 
+
 ### VARIÁVEIS DE AMBIENTE
+
+# Histórico
+HISTCONTROL=ignoreboth
+HISTSIZE=5000
+HISTFILESIZE=5000
+
 EDITOR="vi"
 if check_command vim ; then
     EDITOR="vim"
 fi
 export EDITOR
-
-# Commits com VIM por rapidez
 export GIT_EDITOR="vim"
-
 # Ver https://git-scm.com/book/id/v2/Appendix-A%3A-Git-in-Other-Environments-Git-in-Bash
 export GIT_PS1_DESCRIBE_STYLE=default
-
-# Guake
-export GUAKE_ENABLE_WAYLAND=1
-
-# Libvirt
 export LIBVIRT_DEFAULT_URI='qemu:///system'
+# pass-store
+export PASSWORD_STORE_CLIP_TIME=60
+
 
 ### CONFIGURA E INICIALIZA PROGRAMAS
+
 # zoxide setup
 check_command zoxide && eval "$(zoxide init --cmd cd bash)" || echo "zoxide não instalado"
 
 # keychain setup
 check_command keychain && eval "$(keychain --eval --quiet --confhost)" || echo "keychain não instalado"
 
-# pass-store
-export PASSWORD_STORE_CLIP_TIME=60
-
 # direnv setup
 check_command direnv && eval "$(direnv hook bash)"
 check_command direnv && alias tmux='direnv exec / tmux'
-show_virtual_env() {
-  if [[ -n "$VIRTUAL_ENV" && -n "$DIRENV_DIR" ]]; then
-    echo "($(basename $VIRTUAL_ENV)) "
-  fi
-}
-export -f show_virtual_env
-PS1='$(show_virtual_env)'$PS1
 
-# Terminal guake
-export GUAKE_ENABLE_WAYLAND=1
-guake_config_file="$HOME/dotfiles/guake.cfg"
-check_command guake && [ -f "$guake_config_file" ]  && guake --restore-preferences="$guake_config_file"
 
-### CONFIGURAÇÕES LOCAIS
+### FONTES EXTERNAS
+
 # O arquivo ~/.bash_local não é versionado
 [ -f ~/.bash_local ] && source ~/.bash_local
+[ -f ~/.bash_aliases ] && source ~/.bash_aliases
+
+[ -f /usr/share/bash-completion/bash_completion ] && source /usr/share/bash-completion/bash_completion
+[ -x /usr/bin/lesspipe ] && eval "$(SHELL=/bin/sh lesspipe)"
