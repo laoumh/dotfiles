@@ -22,12 +22,6 @@ CORE=(
     xdg-desktop-portal-wlr xdg-desktop-portal-gtk
 )
 
-# Greeter
-GREETER=(
-    greetd
-    nwg-hello
-)
-
 # Bar + status
 BAR=(
     py3status
@@ -89,7 +83,6 @@ THEMING=(
 
 ALL_PACKAGES=(
     "${CORE[@]}"
-    "${GREETER[@]}"
     "${BAR[@]}"
     "${SHELL_UI[@]}"
     "${APPS[@]}"

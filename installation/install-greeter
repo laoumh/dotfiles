@@ -1,0 +1,26 @@
+#!/usr/bin/env bash
+# Install and configure greetd + nwg-hello greeter.
+# Deploys system config files from system/.
+
+set -euo pipefail
+
+DOTFILES="$(cd "$(dirname "$0")/.." && pwd)"
+SYSTEM="$DOTFILES/system"
+
+msg() { echo -e "\033[0;36m:: $*\033[0m"; }
+ok()  { echo -e "\033[0;32m:: $*\033[0m"; }
+
+msg "Installing greeter packages..."
+sudo apt install greetd nwg-hello
+
+msg "Deploying configuration files..."
+sudo install -C -b -m 644 "$SYSTEM/etc/greetd/config.toml" /etc/greetd/config.toml
+sudo install -C -b -m 644 "$SYSTEM/etc/nwg-hello/nwg-hello.json" /etc/nwg-hello/nwg-hello.json
+sudo install -C -b -m 644 "$SYSTEM/etc/nwg-hello/sway-config" /etc/nwg-hello/sway-config
+sudo install -C -b -m 755 "$SYSTEM/usr/local/bin/sway-session" /usr/local/bin/sway-session
+sudo install -C -b -m 644 "$SYSTEM/usr/share/wayland-sessions/sway.desktop" /usr/share/wayland-sessions/sway.desktop
+
+msg "Enabling greetd service..."
+sudo systemctl enable greetd
+
+ok "Done. Greeter will be active on next boot."

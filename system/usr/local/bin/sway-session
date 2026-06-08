@@ -1,0 +1,12 @@
+#!/bin/bash
+#
+# Cria sessão sway atrelada ao `systemd`.
+# Modificar /usr/share/wayland-sessions/sway.desktop para executar este script:
+#    Exec=sway-session
+# 
+# O log do sway pode ser consultado com 
+#    $ journalctl -t sway-session
+#
+# Se necessário investigar alguma questão, adicionar flag `--verbose`
+# ao comando sway
+systemd-cat -t sway-session sway
