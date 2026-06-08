@@ -1,0 +1,48 @@
+#!/usr/bin/env bash
+# Install base CLI tools for any machine (including headless).
+# Debian-only.
+
+set -euo pipefail
+
+msg() { echo -e "\033[0;36m:: $*\033[0m"; }
+
+PACKAGES=(
+    apt-file
+    bash-completion
+    bat
+    curl
+    debdelta
+    direnv
+    fd-find
+    fzf
+    gawk
+    git
+    htop
+    jq
+    ncdu
+    ripgrep
+    rsync
+    shellcheck
+    stow
+    tmux
+    tree
+    unzip
+    vim
+    zoxide
+)
+
+msg "The following packages will be installed:"
+echo "  ${PACKAGES[*]}" | fold -s -w 72 | sed 's/^/  /'
+echo
+
+read -p "Proceed? [y/N] " -n 1 -r
+echo
+[[ $REPLY =~ ^[Yy]$ ]] || exit 0
+
+msg "Updating package lists..."
+sudo apt update
+
+msg "Installing packages..."
+sudo apt install "${PACKAGES[@]}"
+
+echo "Done."

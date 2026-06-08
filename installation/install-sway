@@ -49,9 +49,11 @@ TOOLS=(
     gammastep         # night light
     gawk              # help script parser
     grim              # screenshot
+    imagemagick       # wallpaper color remapping
     jq                # general utility / bar wrapper
     lsix              # terminal img viewer
     playerctl         # media keys (README planned)
+    poppler-utils     # PDF utilities (thumbnails)
     pulseaudio-utils  # pactl for volume keys
     slurp             # area selection for screenshot
     swappy            # screenshot editor
