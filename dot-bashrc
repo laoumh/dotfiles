@@ -118,7 +118,7 @@ export PASSWORD_STORE_CLIP_TIME=60
 ### CONFIGURA E INICIALIZA PROGRAMAS
 
 # zoxide setup
-check_command zoxide && eval "$(zoxide init --cmd cd bash)" || echo "zoxide não instalado"
+check_command zoxide && eval "$(zoxide init --cmd z bash)" || echo "zoxide não instalado"
 
 # keychain setup
 check_command keychain && eval "$(keychain --eval --quiet --confhost)" || echo "keychain não instalado"
