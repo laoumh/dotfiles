@@ -9,4 +9,7 @@
 
 ^/guake.cfg
 ^/scripts
-^/tasks
+^/services
+^/installation
+^/configuration
+^/system

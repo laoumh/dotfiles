@@ -4,4 +4,4 @@ Description=Notifica atualizações de segurança
 
 [Service]
 Type=oneshot
-ExecStart=%h/dotfiles/tasks/updates-notify
+ExecStart=%h/dotfiles/services/updates-notify
