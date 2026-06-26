@@ -113,15 +113,13 @@ export GIT_PS1_DESCRIBE_STYLE=default
 export LIBVIRT_DEFAULT_URI='qemu:///system'
 # pass-store
 export PASSWORD_STORE_CLIP_TIME=60
-
+# Socket SSH
+export SSH_AUTH_SOCK="${XDG_RUNTIME_DIR}/openssh_agent"
 
 ### CONFIGURA E INICIALIZA PROGRAMAS
 
 # zoxide setup
 check_command zoxide && eval "$(zoxide init --cmd z bash)" || echo "zoxide não instalado"
-
-# keychain setup
-check_command keychain && eval "$(keychain --eval --quiet --confhost)" || echo "keychain não instalado"
 
 # direnv setup
 check_command direnv && eval "$(direnv hook bash)"

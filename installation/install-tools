@@ -14,11 +14,13 @@ PACKAGES=(
     debdelta
     direnv
     fd-find
+    foot-terminfo
     fzf
     gawk
     git
     htop
     jq
+    man-db
     ncdu
     ripgrep
     rsync
