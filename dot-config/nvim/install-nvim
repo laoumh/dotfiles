@@ -1,0 +1,33 @@
+#!/usr/bin/env bash
+#
+# Instala NeoVim diretamente do repositório.
+
+if [[ $# -ne 2 ]] ; then
+        echo "Uso: $0 <versão> <sha256>"
+	echo "Ver https://github.com/neovim/neovim/releases/latest para versão e checksum"
+        exit
+fi
+
+version="$1"
+chksum="${2#sha256:}"
+nvim_dir="$HOME/Programas/nvim-$version"
+nvim_app_name=nvim-linux-x86_64.appimage
+
+mkdir -p "$nvim_dir"
+cd "$nvim_dir"
+
+echo "Baixando NeoVim versão $version"
+curl -LOJ "https://github.com/neovim/neovim/releases/download/$version/$nvim_app_name"
+
+echo "Conferindo checksum"
+echo "$chksum $nvim_app_name" | sha256sum -c -
+chkstatus=$?
+
+if [[ $chkstatus -ne 0 ]] ; then
+        echo "Check sum falhou, verificar arquivo."
+        exit 1
+fi
+
+chmod +x "$nvim_dir/$nvim_app_name"
+ln -sf "$nvim_dir/$nvim_app_name" "$HOME/.local/bin/nvim"
+echo "link: $nvim_dir/$nvim_app_name --> $HOME/.local/bin/nvim"
