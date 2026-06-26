@@ -18,9 +18,6 @@ alias f='find . -type f -iname'
 alias bat='batcat'
 
 # Definições
-alias ccuec-vpn-connect='forticlient vpn connect ccuec-gw -u lmaraujo -s'
-alias ccuec-vpn-disconnect='forticlient vpn disconnect ccuec-gw'
-alias ccuec-vpn-status='forticlient vpn status'
 alias nclean='nvim --clean'
 alias reload='exec bash'
 alias start-env='pipenv shell'

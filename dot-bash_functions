@@ -25,3 +25,40 @@ copy() {
         return 1
     fi
 }
+
+### Forticlient
+function ccuec-vpn-connect {
+    local vpn_profile=ccuec-gw
+    local user=lmaraujo
+
+    if ! command -v forticlient > /dev/null ; then
+        echo "Instalar e configurar forticlient"
+        return 1
+    fi
+
+    if ! systemctl --quiet is-active forticlient.service ; then
+        echo "Inicializando serviço forticlient"
+        systemctl start forticlient.service
+        sleep 2
+    fi
+
+    if ! forticlient vpn list | grep -q "$vpn_profile" ; then
+        echo "Configurar perfil $vpn_profile"
+        return 2
+    fi
+
+    forticlient vpn connect "$vpn_profile" -u "$user"
+}
+
+function ccuec-vpn-disconnect {
+    local vpn_profile=ccuec-gw
+    forticlient vpn disconnect "$vpn_profile"
+    systemctl stop forticlient.service
+    echo "Desconectado de $vpn_profile"
+}
+
+function ccuec-vpn-status {
+    forticlient vpn status
+}
+
+
