@@ -8,16 +8,24 @@ if [[ $# -ne 2 ]] ; then
         exit
 fi
 
+if ! command -v fusermount > /dev/null ; then
+	echo "Dependência 'fusermount' indisponível."
+	echo "Necessário instalar pacote 'fuse':"
+	echo "    apt install fuse"
+	exit 1
+fi
+
 version="$1"
 chksum="${2#sha256:}"
 nvim_dir="$HOME/Programas/nvim-$version"
+local_bin_dir="$HOME/.local/bin"
 nvim_app_name=nvim-linux-x86_64.appimage
 
 mkdir -p "$nvim_dir"
 cd "$nvim_dir"
 
 echo "Baixando NeoVim versão $version"
-curl -LOJ "https://github.com/neovim/neovim/releases/download/$version/$nvim_app_name"
+curl -LOJ -# "https://github.com/neovim/neovim/releases/download/$version/$nvim_app_name"
 
 echo "Conferindo checksum"
 echo "$chksum $nvim_app_name" | sha256sum -c -
@@ -29,5 +37,6 @@ if [[ $chkstatus -ne 0 ]] ; then
 fi
 
 chmod +x "$nvim_dir/$nvim_app_name"
-ln -sf "$nvim_dir/$nvim_app_name" "$HOME/.local/bin/nvim"
-echo "link: $nvim_dir/$nvim_app_name --> $HOME/.local/bin/nvim"
+mkdir -p "$local_bin_dir"
+ln -sf "$nvim_dir/$nvim_app_name" "$local_bin_dir/nvim"
+echo "link: $nvim_dir/$nvim_app_name --> $local_bin_dir/nvim"
