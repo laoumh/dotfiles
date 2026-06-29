@@ -94,6 +94,12 @@ vim.api.nvim_create_user_command('PackUpdate', function()
   { desc = "Atualiza plugins" }
 )
 
+vim.api.nvim_create_user_command('PackRestore', function()
+    vim.pack.update(nil, { target = 'lockfile' })
+  end,
+  { desc = "Restaura plugins a partir do nvim pack lock." }
+)
+
 vim.api.nvim_create_user_command('PackList', function()
     local plugins = vim.pack.get()
     if #plugins == 0 then
