@@ -102,6 +102,7 @@ HISTCONTROL=ignoreboth
 HISTSIZE=5000
 HISTFILESIZE=5000
 
+export COLORTERM=truecolor
 EDITOR="vi"
 if check_command vim ; then
     EDITOR="vim"
