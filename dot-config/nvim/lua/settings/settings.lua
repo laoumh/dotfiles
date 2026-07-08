@@ -21,6 +21,7 @@ vim.cmd.colorscheme 'catppuccin'
 require('vim._core.ui2').enable()
 
 -- Config
+vim.opt.confirm = true
 vim.opt.exrc = true
 vim.opt.mouse = ''
 

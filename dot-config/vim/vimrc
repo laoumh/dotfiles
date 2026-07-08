@@ -1,0 +1,120 @@
+" --- Leader ---
+let mapleader = ' '
+let maplocalleader = ' '
+
+" --- Fundamentals ---
+source $VIMRUNTIME/defaults.vim
+
+" --- UI ---
+set number
+set relativenumber
+set cursorline
+set signcolumn=yes
+set laststatus=2
+set showcmd
+set noshowmode
+set wildmenu
+set wildoptions=pum
+set list
+set listchars=tab:»\ ,trail:·,nbsp:␣
+
+" Statusline
+set statusline=
+set statusline+=\ %f            " file path
+set statusline+=\ %m%r%h%w      " modified, readonly, help, preview flags
+set statusline+=%=              " right align
+set statusline+=\ %y            " filetype
+set statusline+=\ %l:%c         " line:column
+set statusline+=\ %p%%          " percentage through file
+
+" --- Editing ---
+set spell
+set spelllang=en_us,pt_br
+set expandtab
+set shiftwidth=4
+set tabstop=4
+set softtabstop=4
+set breakindent
+set wrap
+set backspace=indent,eol,start
+set formatoptions+=j
+
+" --- Search ---
+set incsearch
+set hlsearch
+set ignorecase
+set smartcase
+
+" Clear search highlight
+nnoremap <Esc> :nohlsearch<CR>
+
+" File explorer
+nnoremap - :Ex<CR>
+
+" --- Scrolling & splits ---
+set scrolloff=10
+set splitbelow
+set splitright
+
+" --- File handling ---
+set noswapfile
+set autoread
+set hidden
+set confirm
+
+" --- Mouse ---
+set mouse=
+
+" --- Timing ---
+set updatetime=250
+set timeoutlen=1000
+set ttimeoutlen=50
+
+" --- Clipboard ---
+function! CopyCmd() abort
+    if executable('wl-copy')
+        return 'wl-copy'
+    elseif exists('$TMUX')
+        return 'tmux load-buffer -w -'
+    elseif executable('xclip')
+        return 'xclip -i -selection clipboard'
+    else
+        return ''
+    endif
+endfunction
+
+function! CopyToClipboard(type) abort
+    let l:cmd = CopyCmd()
+    if empty(l:cmd)
+        echohl ErrorMsg | echo 'clipboard: nenhum provider encontrado' | echohl None
+        return
+    endif
+    if a:type ==# 'line'
+        silent execute "'[,']w !" . l:cmd
+    else
+        silent normal! `[v`]"zy
+        call system(l:cmd, @z)
+    endif
+endfunction
+
+" Visual mode
+vnoremap <silent> <leader>y :<C-u>normal! gv"zy<CR>:call system(CopyCmd(), @z)<CR>
+
+" Normal mode (operator-pending)
+nnoremap <silent> <leader>y :set operatorfunc=CopyToClipboard<CR>g@
+nnoremap <silent> <leader>yy V:<C-u>normal! gv"zy<CR>:call system(CopyCmd(), @z)<CR>
+
+" --- Appearance ---
+set background=dark
+
+try
+    let g:gruvbox_guisp_fallback = 'fg'
+    colorscheme gruvbox
+    " Undercurl doesn't render in terminal; use colored underline
+    highlight SpellBad cterm=underline ctermfg=167 ctermbg=NONE
+    highlight SpellCap cterm=underline ctermfg=109 ctermbg=NONE
+    highlight SpellRare cterm=underline ctermfg=175 ctermbg=NONE
+    highlight SpellLocal cterm=underline ctermfg=108 ctermbg=NONE
+catch
+    colorscheme unokai
+endtry
